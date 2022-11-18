@@ -43,7 +43,7 @@ public class PlayRunner
 
     private static boolean isHost(String[] args)
     {
-        return args.length >= 1 && args[0].equals("host");
+        return args.length >= 1 && args[0].equals("-host");
     }
 
 
