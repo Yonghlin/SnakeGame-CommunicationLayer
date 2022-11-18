@@ -8,6 +8,7 @@ import edu.ship.engr.communication.ConnectionManager;
 import edu.ship.engr.communication.MessageAccumulator;
 import edu.ship.engr.messages.FirstObjectToSend;
 import edu.ship.engr.messages.Message;
+import edu.ship.engr.presentation.GameFrame;
 
 public class PlayRunner
 {
@@ -22,6 +23,7 @@ public class PlayRunner
         Socket socket;
         if (isHost(args))
         {
+            new GameFrame();
             try (ServerSocket serverSocket = new ServerSocket(4242, 10))
             {
                 socket = serverSocket.accept();
