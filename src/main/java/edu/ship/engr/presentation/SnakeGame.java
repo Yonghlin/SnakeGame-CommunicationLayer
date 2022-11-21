@@ -1,8 +1,11 @@
 package edu.ship.engr.presentation;
 
+import org.w3c.dom.css.Rect;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Array;
 import java.util.ArrayList;
 
 public class SnakeGame extends JPanel implements KeyListener, ActionListener {
@@ -15,7 +18,7 @@ public class SnakeGame extends JPanel implements KeyListener, ActionListener {
     private static final boolean DRAW_GRID = false;
     private Apple apple;
     private GameFrame window;
-    private Snake snake;
+    private Snake[] snake;
 
 
     /**
@@ -39,7 +42,9 @@ public class SnakeGame extends JPanel implements KeyListener, ActionListener {
         Timer timer = new Timer(175, this);
         timer.start();
 
-        snake = new Snake(startingXPos, startingYPos, 25);
+        snake[0]= new Snake(startingXPos, startingYPos, 25);
+        snake[1] = new Snake(-startingXPos, startingYPos, 25);
+
         apple = new Apple();
     }
 
@@ -47,38 +52,50 @@ public class SnakeGame extends JPanel implements KeyListener, ActionListener {
      * Checks all possible collisions that may happen within the game
      */
     private void checkCollision() {
-        Rectangle snakeOneHead = snake.getHead();
-        ArrayList<Rectangle> snakeOneBody = snake.getBody();
-        int currentX = snakeOneHead.getXPosition();
-        int currentY = snakeOneHead.getYPosition();
+        Rectangle[] snakeHead = {snake[0].getHead(), snake[1].getHead()};
+        ArrayList<ArrayList<Rectangle>> snakeBody = new ArrayList<>(2); //array list storing an array list of rectangles
+        snakeBody.add(snake[0].getBody());
+        snakeBody.add(snake[1].getBody());
 
-        // Check borders
-        if (currentX < 0) {
-            endGame();
-        }
-        if (currentX > SCREEN_WIDTH) {
-            endGame();
-        }
-        if (currentY < 0) {
-            endGame();
-        }
-        if (currentY > SCREEN_HEIGHT) {
-            endGame();
+        int[] currentX = {snakeHead[0].getXPosition(), snakeHead[1].getXPosition()};
+        int[] currentY = {snakeHead[0].getYPosition(), snakeHead[1].getYPosition()};
+
+        for (int i = 0; i < 2; i++) {
+            // Check borders
+            if (currentX[i] < 0 || currentY[i] < 0) {
+                endGame();
+            }
+            if (currentX[i] > SCREEN_WIDTH || currentY[i] > SCREEN_HEIGHT) {
+                endGame();
+            }
         }
 
         // Check self intersect
-        for (int i = 1; i < snake.getBody().size(); i++) {
-            Rectangle currentBodyPart = snakeOneBody.get(i);
-            if (snakeOneHead.intersects(currentBodyPart)) {
+        for (int i = 1; i < snakeBody.size(); i++) {
+            Rectangle[] currentBodyPart = {snakeBody.get(0).get(i), snakeBody.get(0).get(i)};
+            if (snakeHead[0].intersects(currentBodyPart[0]) ||
+                    snakeHead[1].intersects(currentBodyPart[1])) {
                 endGame();
             }
         }
 
         // Check for fruit
-        if (snakeOneHead.intersects(new Rectangle(apple.getXPosition(), apple.getYPosition()))) {
-            apple = null;
-            apple = new Apple();
-            snake.grow();
+        boolean stop = false;
+        int i = 0;
+
+        while (!stop) {
+            if (snakeHead[i].intersects(new Rectangle(apple.getXPosition(), apple.getYPosition()))){
+                apple = null;
+                apple = new Apple();
+                snake[i].grow();
+                stop = true;
+            }
+
+            i++;
+
+            if (i == 2) {
+                stop = true;
+            }
         }
     }
 
@@ -90,7 +107,8 @@ public class SnakeGame extends JPanel implements KeyListener, ActionListener {
         this.window.setVisible(false);
 
         JFrame parent = new JFrame("Game over!");
-        JOptionPane.showMessageDialog(parent, "Your score: " + snake.getBody().size());
+        JOptionPane.showMessageDialog(parent, "Snake1's score: " + snake[0].getBody().size() +
+                                                                                                "\nSnake2's score: " + snake[1].getBody().size());
 
         this.window.dispatchEvent(new WindowEvent(this.window, WindowEvent.WINDOW_CLOSING));
         System.exit(0);
@@ -101,14 +119,32 @@ public class SnakeGame extends JPanel implements KeyListener, ActionListener {
      * @param g graphics
      */
     private void drawSnake(Graphics g) {
-        snake.move();
+        // TODO: Figure out if the 2 lines are the proper way of moving the snakes
+        snake[0].move();
+        snake[1].move();
         checkCollision();
 
         Graphics2D g2D = (Graphics2D) g;
-        ArrayList<Rectangle> snakeOneBody = snake.getBody();
+        ArrayList<ArrayList<Rectangle>> snakeBody = new ArrayList<>();
+        snakeBody.add(snake[0].getBody());
+        snakeBody.add(snake[1].getBody());
 
-        for (int i = 0; i < snakeOneBody.size(); i++) {
-            Rectangle currentBodyPart = snakeOneBody.get(i);
+        /*
+            ArrayList 1
+                ArrayList 1.1
+                ArrayList 1.2
+            ArrayList 2
+                ArrayList 2.1
+                ArrayList 2.2
+         */
+
+        // Note: We were going to continue but then I was thinking about the fact that,
+        //          after all of this, we will be undoing it when we get to having two computers
+        //          talk to each other
+
+        int  x = 0;
+        for (int i = 0; i < snakeBody.size(); i++) {
+            Rectangle currentBodyPart = snakeBody.get(i).get(x);
             int currentBodyXPos = currentBodyPart.getXPosition();
             int currentBodyYPos = currentBodyPart.getYPosition();
 
@@ -120,6 +156,22 @@ public class SnakeGame extends JPanel implements KeyListener, ActionListener {
             g2D.drawRect(currentBodyXPos, currentBodyYPos, UNIT_SIZE, UNIT_SIZE);
             g2D.fillRect(currentBodyXPos, currentBodyYPos, UNIT_SIZE, UNIT_SIZE);
         }
+
+        /*
+        for (int i = 0; i < snakeBody.size(); i++) {
+            Rectangle currentBodyPart = snakeOneBody.get(i).get(x);
+            int currentBodyXPos = currentBodyPart.getXPosition();
+            int currentBodyYPos = currentBodyPart.getYPosition();
+
+            if (i == 0) {
+                g2D.setPaint(new Color(18, 95, 227));
+            } else {
+                g2D.setPaint(new Color(12, 75, 152));
+            }
+            g2D.drawRect(currentBodyXPos, currentBodyYPos, UNIT_SIZE, UNIT_SIZE);
+            g2D.fillRect(currentBodyXPos, currentBodyYPos, UNIT_SIZE, UNIT_SIZE);
+        }
+         */
     }
 
     /**
@@ -163,6 +215,7 @@ public class SnakeGame extends JPanel implements KeyListener, ActionListener {
      */
     @Override
     public void paintComponent(Graphics g) {
+        // TODO: Figure out where this function is being called
         super.paintComponent(g);
         if (DRAW_GRID) {
             drawGrid(g);

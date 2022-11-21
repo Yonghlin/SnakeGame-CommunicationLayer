@@ -28,6 +28,7 @@ public class Snake {
      * Uses the snakes old position to move it forward depending on its current direction
      */
     public void move() {
+        // TODO: Figure out how to handle both snakes
         ArrayList<Rectangle> newBody = new ArrayList<>();
 
         Rectangle oldHead = body.get(0);
