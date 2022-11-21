@@ -23,7 +23,8 @@ public class PlayRunner
         Socket socket;
         if (isHost(args))
         {
-            new GameFrame();
+            new GameFrame("host");
+            // new GameFrame("host");
             try (ServerSocket serverSocket = new ServerSocket(4242, 10))
             {
                 socket = serverSocket.accept();
@@ -31,6 +32,7 @@ public class PlayRunner
         }
         else
         {
+            // new GameFrame("client");
             socket = new Socket("localhost", 4242);
         }
 
@@ -45,7 +47,7 @@ public class PlayRunner
 
     private static boolean isHost(String[] args)
     {
-        return args.length >= 1 && args[0].equals("-host");
+        return args.length >=1 && args[0].equals("-host");
     }
 
 

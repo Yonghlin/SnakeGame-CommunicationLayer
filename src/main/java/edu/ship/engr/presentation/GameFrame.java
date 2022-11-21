@@ -7,8 +7,8 @@ public class GameFrame extends JFrame {
     /**
      * Creates a new JFrame and Snake game
      */
-    public GameFrame() {
-        this.add(new SnakeGame(this));
+    public GameFrame(String mode) {
+        this.add(new SnakeGame(this,  mode));
         this.setTitle("Snake");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);

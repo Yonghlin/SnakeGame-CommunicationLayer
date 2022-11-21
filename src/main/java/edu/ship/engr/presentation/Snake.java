@@ -1,11 +1,14 @@
 package edu.ship.engr.presentation;
 
 import java.util.ArrayList;
+import java.awt.Color;
 
 public class Snake {
     private ArrayList<Rectangle> body = new ArrayList<>();
     private String direction;
     private int speed;
+    private Color headColor;
+    private Color bodyColor;
 
     /**
      * Creates a new snake
@@ -13,7 +16,7 @@ public class Snake {
      * @param startingYPos the snakes starting y position
      * @param speed the snakes speed
      */
-    public Snake(int startingXPos, int startingYPos, int speed) {
+    public Snake(int startingXPos, int startingYPos, int speed, Color headColor, Color bodyColor) {
         Rectangle head = new Rectangle(startingXPos, startingYPos);
         body.add(head);
 
@@ -22,6 +25,8 @@ public class Snake {
 
         this.direction = "right";
         this.speed = speed;
+        this.headColor = headColor;
+        this.bodyColor = bodyColor;
     }
 
     /**
@@ -105,6 +110,10 @@ public class Snake {
     public Rectangle getHead() {
         return body.get(0);
     }
+
+    public Color getHeadColor() { return headColor; }
+
+    public Color getBodyColor() { return bodyColor; }
 
     /**
      * Sets the snakes moving direction
