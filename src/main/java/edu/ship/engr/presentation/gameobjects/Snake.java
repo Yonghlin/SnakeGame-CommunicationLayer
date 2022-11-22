@@ -113,8 +113,14 @@ public class Snake {
         return body.get(0);
     }
 
+    /**
+     * @return the color of the snakes head
+     */
     public Color getHeadColor() { return headColor; }
 
+    /**
+     * @return the color of the snakes body
+     */
     public Color getBodyColor() { return bodyColor; }
 
     /**
