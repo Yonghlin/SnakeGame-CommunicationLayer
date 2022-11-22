@@ -1,4 +1,4 @@
-package edu.ship.engr.presentation;
+package edu.ship.engr.presentation.gameobjects;
 
 public class Rectangle {
     private int xPosition;

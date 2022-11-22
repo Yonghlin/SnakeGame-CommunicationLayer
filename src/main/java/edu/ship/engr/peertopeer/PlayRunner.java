@@ -23,8 +23,7 @@ public class PlayRunner
         Socket socket;
         if (isHost(args))
         {
-            new GameFrame("host");
-            // new GameFrame("host");
+
             try (ServerSocket serverSocket = new ServerSocket(4242, 10))
             {
                 socket = serverSocket.accept();
@@ -32,16 +31,16 @@ public class PlayRunner
         }
         else
         {
-            // new GameFrame("client");
             socket = new Socket("localhost", 4242);
         }
+
 
         new ConnectionManager(socket, messageAccumulator);
         if (isHost(args))
         {
-            System.out.println("Sending msg");
-            FirstObjectToSend x = new FirstObjectToSend(42, 59);
-            messageAccumulator.queueMessage(new Message<>(x));
+            new GameFrame(true);
+        } else {
+            new GameFrame(false);
         }
     }
 

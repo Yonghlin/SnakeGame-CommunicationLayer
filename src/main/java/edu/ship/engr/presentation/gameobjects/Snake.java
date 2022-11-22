@@ -1,4 +1,6 @@
-package edu.ship.engr.presentation;
+package edu.ship.engr.presentation.gameobjects;
+
+import edu.ship.engr.presentation.SnakeGame;
 
 import java.util.ArrayList;
 import java.awt.Color;
