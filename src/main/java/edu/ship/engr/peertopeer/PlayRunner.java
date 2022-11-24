@@ -13,7 +13,7 @@ import edu.ship.engr.presentation.GameFrame;
 public class PlayRunner
 {
     public static MessageAccumulator messageAccumulator  =
-        new MessageAccumulator();;
+        new MessageAccumulator();
 
     public static void main(String[] args)
             throws IOException, ClassNotFoundException
@@ -34,10 +34,14 @@ public class PlayRunner
             socket = new Socket("localhost", 4242);
         }
 
-
         new ConnectionManager(socket, messageAccumulator);
+
         if (isHost(args))
         {
+//            System.out.println("Sending msg");
+//            FirstObjectToSend x = new FirstObjectToSend(42, 59);
+//            messageAccumulator.queueMessage(new Message<>(x));
+
             new GameFrame(true);
         } else {
             new GameFrame(false);

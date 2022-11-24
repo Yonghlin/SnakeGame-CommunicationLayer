@@ -3,15 +3,19 @@ package edu.ship.engr.presentation;
 import javax.swing.*;
 
 public class GameFrame extends JFrame {
+    public static SnakeGame hostSnakeGame; //static variables that contain the game
+    public static SnakeGame peerSnakeGame;
 
     /**
      * Creates a new JFrame and Snake game
      */
     public GameFrame(boolean isHost) {
         if(isHost) {
-            this.add(new HostSnakeGame(this));
+            hostSnakeGame = new HostSnakeGame(this);
+            this.add(hostSnakeGame);  //adds the panel to the JFrame
         } else {
-            this.add(new PeerSnakeGame(this));
+            peerSnakeGame = new PeerSnakeGame(this);
+            this.add(peerSnakeGame);
         }
 
         this.setTitle("Snake");

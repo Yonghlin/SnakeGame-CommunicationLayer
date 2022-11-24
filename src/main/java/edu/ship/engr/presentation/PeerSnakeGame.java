@@ -1,5 +1,7 @@
 package edu.ship.engr.presentation;
 
+import edu.ship.engr.communication.handlers.AppleHandler;
+import edu.ship.engr.messages.AppleLocation;
 import edu.ship.engr.presentation.gameobjects.Apple;
 import edu.ship.engr.presentation.gameobjects.Rectangle;
 import edu.ship.engr.presentation.gameobjects.Snake;
@@ -30,8 +32,8 @@ public class PeerSnakeGame extends SnakeGame {
 
         snake = new Snake(75, 25, 25, new Color(145, 67, 67), new Color(150, 17, 23));
         //TODO: Tell host the peer connected
+        
 
-        setApple(50, 50);
     }
 
     /**

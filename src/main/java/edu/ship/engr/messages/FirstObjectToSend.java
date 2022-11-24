@@ -20,11 +20,6 @@ public class FirstObjectToSend
         this.magicNumber2 = magicNumber2;
     }
 
-    public int getMagicNumber2()
-    {
-        return magicNumber2;
-    }
-
     public FirstObjectToSend(LinkedHashMap<String, Object> p)
     {
         magicNumber = (Integer) p.get("magicNumber");
@@ -44,5 +39,8 @@ public class FirstObjectToSend
     {
         return magicNumber;
     }
-
+    public int getMagicNumber2()
+    {
+        return magicNumber2;
+    }
 }

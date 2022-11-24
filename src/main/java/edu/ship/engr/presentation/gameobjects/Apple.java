@@ -1,5 +1,8 @@
 package edu.ship.engr.presentation.gameobjects;
 
+import edu.ship.engr.messages.AppleLocation;
+import edu.ship.engr.messages.Message;
+import edu.ship.engr.peertopeer.PlayRunner;
 import edu.ship.engr.presentation.SnakeGame;
 
 import java.util.Random;
@@ -22,6 +25,10 @@ public class Apple {
 
         xPosition = new Random().nextInt(SnakeGame.SCREEN_WIDTH/ SnakeGame.UNIT_SIZE) * SnakeGame.UNIT_SIZE;
         yPosition = new Random().nextInt(SnakeGame.SCREEN_HEIGHT/ SnakeGame.UNIT_SIZE) * SnakeGame.UNIT_SIZE;
+
+        System.out.println("Sending apple location message");
+        AppleLocation appleLocation = new AppleLocation(xPosition, yPosition);
+        PlayRunner.messageAccumulator.queueMessage(new Message<>(appleLocation));
     }
 
     /**

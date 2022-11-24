@@ -1,8 +1,6 @@
 package edu.ship.engr.communication;
 
-import edu.ship.engr.communication.handlers.FirstObjectToSendHandler;
-import edu.ship.engr.communication.handlers.ReplyObjectHandler;
-import edu.ship.engr.communication.handlers.Handler;
+import edu.ship.engr.communication.handlers.*;
 import edu.ship.engr.messages.Message;
 
 public class MessageHandlerSet
@@ -23,15 +21,12 @@ public class MessageHandlerSet
         }
     }
 
-    private final HandlerMapping[] handlerMappings =
-            {new HandlerMapping(Class.forName("edu.ship.engr.messages" +
-                    ".FirstObjectToSend"),
-                    new FirstObjectToSendHandler()),
-                    new HandlerMapping(Class.forName("edu.ship.engr.messages" +
-                            ".ReplyObject"
-                    ), new ReplyObjectHandler()),
-            };
-
+    private final HandlerMapping[] handlerMappings = {
+            new HandlerMapping(Class.forName("edu.ship.engr.messages.FirstObjectToSend"), new FirstObjectToSendHandler()),
+            new HandlerMapping(Class.forName("edu.ship.engr.messages.ReplyObject"), new ReplyObjectHandler()),
+            new HandlerMapping(Class.forName("edu.ship.engr.messages.InitializeGame"), new InitializeGameHandler()),
+            new HandlerMapping(Class.forName("edu.ship.engr.messages.AppleLocation"), new AppleHandler())
+    };
 
     public void process(Message<?> msg)
     {
