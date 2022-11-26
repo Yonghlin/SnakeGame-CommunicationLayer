@@ -1,5 +1,9 @@
 package edu.ship.engr.presentation;
 
+import edu.ship.engr.messages.AppleLocation;
+import edu.ship.engr.messages.Message;
+import edu.ship.engr.messages.PlayerDeath;
+import edu.ship.engr.peertopeer.PlayRunner;
 import edu.ship.engr.presentation.gameobjects.Apple;
 import edu.ship.engr.presentation.gameobjects.Rectangle;
 import edu.ship.engr.presentation.gameobjects.Snake;
@@ -64,6 +68,10 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
      * Ends the game
      */
     private void endGame() {
+        System.out.println("Sending death message");
+        PlayerDeath playerDeath = new PlayerDeath(true);
+        PlayRunner.messageAccumulator.queueMessage(new Message<>(playerDeath));
+
         System.out.println("You lose!");
         window.setVisible(false);
 
