@@ -9,10 +9,13 @@ import java.util.LinkedHashMap;
 public class AppleHandler implements Handler {
     @Override
     public void processMessage(Message<?> msg) {
-        AppleLocation applemsg = new AppleLocation((LinkedHashMap<String,Object>) msg.getObject());
-        System.out.println(applemsg);
+        AppleLocation appleMsg = new AppleLocation((LinkedHashMap<String,Object>) msg.getObject());
+        System.out.println(appleMsg);
 
-        GameFrame.peerSnakeGame.setApple(applemsg.getx(), applemsg.gety());
-        //TODO: spawn apple in PeerSnakeGame
+        if (appleMsg.gethost()) {
+            GameFrame.peerSnakeGame.setApple(appleMsg.getx(), appleMsg.gety());
+        } else {
+            GameFrame.hostSnakeGame.setApple(appleMsg.getx(), appleMsg.gety());
+        }
     }
 }

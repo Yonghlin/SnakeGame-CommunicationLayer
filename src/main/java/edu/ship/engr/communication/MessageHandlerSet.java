@@ -26,7 +26,7 @@ public class MessageHandlerSet
             new HandlerMapping(Class.forName("edu.ship.engr.messages.ReplyObject"), new ReplyObjectHandler()),
             new HandlerMapping(Class.forName("edu.ship.engr.messages.InitializeGame"), new InitializeGameHandler()),
             new HandlerMapping(Class.forName("edu.ship.engr.messages.AppleLocation"), new AppleHandler()),
-            new HandlerMapping(Class.forName("edu.ship.engr.messages.PlayerLocation"), new PlayerLocationHandler()),
+            new HandlerMapping(Class.forName("edu.ship.engr.messages.InitializeSnake"), new PlayerLocationHandler()),
             new HandlerMapping(Class.forName("edu.ship.engr.messages.PlayerDeath"), new PlayerDeathHandler())
     };
 

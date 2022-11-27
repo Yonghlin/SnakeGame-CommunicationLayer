@@ -1,7 +1,8 @@
 package edu.ship.engr.presentation;
 
-import edu.ship.engr.communication.handlers.AppleHandler;
-import edu.ship.engr.messages.AppleLocation;
+import edu.ship.engr.messages.Message;
+import edu.ship.engr.messages.InitializeSnake;
+import edu.ship.engr.peertopeer.PlayRunner;
 import edu.ship.engr.presentation.gameobjects.Apple;
 import edu.ship.engr.presentation.gameobjects.Rectangle;
 import edu.ship.engr.presentation.gameobjects.Snake;
@@ -30,10 +31,12 @@ public class PeerSnakeGame extends SnakeGame {
         Timer timer = new Timer(175, this);
         timer.start();
 
-        snake = new Snake(75, 25, 25, new Color(145, 67, 67), new Color(150, 17, 23));
-        //TODO: Tell host the peer connected
-        
+        snake = new Snake(75, 25, 5, new Color(145, 67, 67), new Color(150, 17, 23));
 
+        // InitializeSnake peerLocation = new InitializeSnake(false, 75, 25, 5, new String("145, 67, 67"), new String("150, 17, 23")); //new Color(145, 67, 67), new Color(150, 17, 23));
+        InitializeSnake peerLocation = new InitializeSnake(false, 75, 25, 5, new Color(145, 67, 67), new Color(150, 17, 23)); //new Color(145, 67, 67), new Color(150, 17, 23));
+        PlayRunner.messageAccumulator.queueMessage(new Message<>(peerLocation));
+        //TODO: Tell host the peer connected
     }
 
     /**
@@ -46,8 +49,7 @@ public class PeerSnakeGame extends SnakeGame {
             if (snakeHead.intersects(new Rectangle(apple.getXPosition(), apple.getYPosition()))) {
                 apple.despawnApple();
                 snake.grow();
-
-                //TODO: Tell host the apple should be gone
+                apple.spawnApple(false);
             }
         }
     }

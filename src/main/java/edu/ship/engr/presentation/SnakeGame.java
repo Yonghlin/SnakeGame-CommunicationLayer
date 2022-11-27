@@ -21,6 +21,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     private static final boolean DRAW_GRID = false;
     private GameFrame window;
     protected Snake snake;
+    protected Snake otherSnake;
     protected Apple apple;
 
     /**
@@ -89,6 +90,11 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     private void drawSnake(Graphics g) {
         Graphics2D g2D = (Graphics2D) g;
         updateSnake(g2D);
+
+        if (otherSnake != null) {
+            otherSnake.move();
+        }
+
         checkCollision();
     }
 
@@ -137,6 +143,18 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
         apple.setXPosition(xPosition);
         apple.setYPosition(yPosition);
         apple.setInPlay(true);
+    }
+
+    /**
+     * Adds another snake to an existing board
+     * @param startingXPos
+     * @param startingYPos
+     * @param speed
+     * @param headColor
+     * @param bodyColor
+     */
+    public void addSnake(int startingXPos, int startingYPos, int speed, Color headColor, Color bodyColor) {
+        otherSnake = new Snake(startingXPos, startingYPos, speed, headColor, bodyColor);
     }
 
     /**

@@ -5,16 +5,33 @@ import java.util.LinkedHashMap;
 public class AppleLocation {
     private final int x;
     private final int y;
+    private boolean host;
 
-    public AppleLocation(int x, int y) {
+    public AppleLocation(int x, int y, boolean host) {
         this.x = x;
         this.y = y;
+        this.host = host;
     }
 
     public AppleLocation(LinkedHashMap<String, Object> p)
     {
         x = (Integer) p.get("x");
         y = (Integer) p.get("y");
+        host = (boolean) p.get("host");
+    }
+
+    public boolean gethost() {
+        return host;
+    }
+
+    public int getx()
+    {
+        return x;
+    }
+
+    public int gety()
+    {
+        return y;
     }
 
     @Override
@@ -23,15 +40,7 @@ public class AppleLocation {
         return "AppleLocation{" +
                 "X = " + x +
                 ", Y = " + y +
-                '}';
-    }
-
-    public int getx()
-    {
-        return x;
-    }
-    public int gety()
-    {
-        return y;
+                ", host = " + host +
+                "}";
     }
 }
