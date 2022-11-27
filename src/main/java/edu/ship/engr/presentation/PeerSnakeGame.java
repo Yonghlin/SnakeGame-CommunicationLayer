@@ -33,8 +33,9 @@ public class PeerSnakeGame extends SnakeGame {
 
         snake = new Snake(75, 25, 5, new Color(145, 67, 67), new Color(150, 17, 23));
 
-        // InitializeSnake peerLocation = new InitializeSnake(false, 75, 25, 5, new String("145, 67, 67"), new String("150, 17, 23")); //new Color(145, 67, 67), new Color(150, 17, 23));
-        InitializeSnake peerLocation = new InitializeSnake(false, 75, 25, 5, new Color(145, 67, 67), new Color(150, 17, 23)); //new Color(145, 67, 67), new Color(150, 17, 23));
+        System.out.println("Sent start message");
+//        InitializeSnake peerLocation = new InitializeSnake(false, 75, 25, 5, "145, 67, 67", "150, 17, 23");
+        InitializeSnake peerLocation = new InitializeSnake(false, 75, 25, 5);
         PlayRunner.messageAccumulator.queueMessage(new Message<>(peerLocation));
         //TODO: Tell host the peer connected
     }

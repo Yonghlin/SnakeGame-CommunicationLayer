@@ -89,12 +89,8 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
      */
     private void drawSnake(Graphics g) {
         Graphics2D g2D = (Graphics2D) g;
-        updateSnake(g2D);
-
-        if (otherSnake != null) {
-            otherSnake.move();
-        }
-
+        updateSnake(snake, g2D);
+        if (otherSnake != null) { updateSnake(otherSnake, g2D); }
         checkCollision();
     }
 
@@ -102,7 +98,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
      * Update the snakes position and draw the snakes body based on that
      * @param g2D graphics 2D
      */
-    private void updateSnake(Graphics2D g2D) {
+    private void updateSnake(Snake snake, Graphics2D g2D) {
         snake.move();
 
         for (int i = 0; i < snake.getBody().size(); i++) {
