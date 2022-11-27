@@ -29,7 +29,7 @@ public class HostSnakeGame extends SnakeGame {
         Timer timer = new Timer(175, this);
         timer.start();
 
-        snake = new Snake(75, 0, 5, new Color(18, 95, 227), new Color(12, 75, 152));
+        snake = new Snake(75, 0, SPEED, new Color(18, 95, 227), new Color(12, 75, 152));
         apple.spawnApple(true);
     }
 
@@ -38,7 +38,7 @@ public class HostSnakeGame extends SnakeGame {
      * @param snakeHead the head of the snake
      */
     @Override
-    public void checkAppleCollision(edu.ship.engr.presentation.gameobjects.Rectangle snakeHead) {
+    public void checkAppleCollision(Rectangle snakeHead) {
         if (apple.getInPlay()) {
             if (snakeHead.intersects(new Rectangle(apple.getXPosition(), apple.getYPosition()))) {
                 apple.despawnApple();

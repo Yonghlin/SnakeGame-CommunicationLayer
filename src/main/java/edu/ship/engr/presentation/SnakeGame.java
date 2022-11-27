@@ -20,6 +20,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     private static final Color BACKGROUND_COLOR = new Color(115,162,78);
     private static final boolean DRAW_GRID = false;
     private GameFrame window;
+    protected final int SPEED = 25;
     protected Snake snake;
     protected Snake otherSnake;
     protected Apple apple;

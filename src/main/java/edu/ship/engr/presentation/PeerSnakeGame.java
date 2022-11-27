@@ -31,13 +31,10 @@ public class PeerSnakeGame extends SnakeGame {
         Timer timer = new Timer(175, this);
         timer.start();
 
-        snake = new Snake(75, 25, 5, new Color(145, 67, 67), new Color(150, 17, 23));
+        snake = new Snake(75, 25, SPEED, new Color(145, 67, 67), new Color(150, 17, 23));
 
-        System.out.println("Sent start message");
-//        InitializeSnake peerLocation = new InitializeSnake(false, 75, 25, 5, "145, 67, 67", "150, 17, 23");
-        InitializeSnake peerLocation = new InitializeSnake(false, 75, 25, 5);
-        PlayRunner.messageAccumulator.queueMessage(new Message<>(peerLocation));
-        //TODO: Tell host the peer connected
+        InitializeSnake initializeSnake = new InitializeSnake(false, 75, 25, SPEED, "145,67,67", "150,17,23");
+        PlayRunner.messageAccumulator.queueMessage(new Message<>(initializeSnake));
     }
 
     /**
@@ -45,7 +42,7 @@ public class PeerSnakeGame extends SnakeGame {
      * @param snakeHead the head of the snake
      */
     @Override
-    public void checkAppleCollision(edu.ship.engr.presentation.gameobjects.Rectangle snakeHead) {
+    public void checkAppleCollision(Rectangle snakeHead) {
         if (apple.getInPlay()) {
             if (snakeHead.intersects(new Rectangle(apple.getXPosition(), apple.getYPosition()))) {
                 apple.despawnApple();

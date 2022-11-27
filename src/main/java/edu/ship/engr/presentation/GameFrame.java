@@ -12,13 +12,16 @@ public class GameFrame extends JFrame {
     public GameFrame(boolean isHost) {
         if(isHost) {
             hostSnakeGame = new HostSnakeGame(this);
+
+            this.setTitle("[HOST] Snake");
             this.add(hostSnakeGame);  //adds the panel to the JFrame
         } else {
             peerSnakeGame = new PeerSnakeGame(this);
+
+            this.setTitle("[PEER] Snake");
             this.add(peerSnakeGame);
         }
 
-        this.setTitle("Snake");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setVisible(true);
