@@ -1,14 +1,19 @@
 package edu.ship.engr.presentation;
 
+import edu.ship.engr.messages.Direction;
+import edu.ship.engr.messages.Grow;
+import edu.ship.engr.messages.InitializeSnake;
+import edu.ship.engr.messages.Message;
+import edu.ship.engr.peertopeer.PlayRunner;
 import edu.ship.engr.presentation.gameobjects.Apple;
 import edu.ship.engr.presentation.gameobjects.Rectangle;
 import edu.ship.engr.presentation.gameobjects.Snake;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class HostSnakeGame extends SnakeGame {
-
     /**
      * Creates a new JPanel to contain the snake game
      *
@@ -17,6 +22,7 @@ public class HostSnakeGame extends SnakeGame {
     public HostSnakeGame(GameFrame window) {
         super(window);
         this.apple = new Apple();
+        this.isHost = true;
 
         startGame();
     }
@@ -26,10 +32,12 @@ public class HostSnakeGame extends SnakeGame {
      */
     @Override
     public void startGame() {
-        Timer timer = new Timer(175, this);
+        Timer timer = new Timer(DELAY, this);
         timer.start();
 
         snake = new Snake(75, 0, SPEED, new Color(18, 95, 227), new Color(12, 75, 152));
+        InitializeSnake initializeSnake = new InitializeSnake(true, 100, 0, SPEED, "18,95,227", "12,75,152");
+        PlayRunner.messageAccumulator.queueMessage(new Message<>(initializeSnake));
         apple.spawnApple(true);
     }
 
@@ -44,6 +52,9 @@ public class HostSnakeGame extends SnakeGame {
                 apple.despawnApple();
                 snake.grow();
                 apple.spawnApple(true);
+
+                Grow growSnake = new Grow(true);
+                PlayRunner.messageAccumulator.queueMessage(new Message<>(growSnake));
             }
         }
     }

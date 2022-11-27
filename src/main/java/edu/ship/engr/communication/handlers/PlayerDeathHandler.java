@@ -4,6 +4,8 @@ import edu.ship.engr.messages.Message;
 import edu.ship.engr.messages.PlayerDeath;
 import edu.ship.engr.messages.ReplyObject;
 import edu.ship.engr.peertopeer.PlayRunner;
+import edu.ship.engr.presentation.GameFrame;
+import edu.ship.engr.presentation.SnakeGame;
 
 import java.util.LinkedHashMap;
 
@@ -13,7 +15,7 @@ public class PlayerDeathHandler implements Handler {
         PlayerDeath msg = new PlayerDeath((LinkedHashMap<String, Object>) msgFromJSon.getObject());
         System.out.println(msg);
 
-        PlayRunner.messageAccumulator.queueMessage(new Message<>(new ReplyObject("Got " + msg
-                + "!!!!")));
+        SnakeGame gameToProcess = msg.getHost() ? GameFrame.peerSnakeGame : GameFrame.hostSnakeGame;
+        gameToProcess.endGame();
     }
 }

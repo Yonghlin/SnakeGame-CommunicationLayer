@@ -27,7 +27,9 @@ public class MessageHandlerSet
             new HandlerMapping(Class.forName("edu.ship.engr.messages.InitializeGame"), new InitializeGameHandler()),
             new HandlerMapping(Class.forName("edu.ship.engr.messages.AppleLocation"), new AppleHandler()),
             new HandlerMapping(Class.forName("edu.ship.engr.messages.InitializeSnake"), new InitializeSnakeHandler()),
-            new HandlerMapping(Class.forName("edu.ship.engr.messages.PlayerDeath"), new PlayerDeathHandler())
+            new HandlerMapping(Class.forName("edu.ship.engr.messages.PlayerDeath"), new PlayerDeathHandler()),
+            new HandlerMapping(Class.forName("edu.ship.engr.messages.Direction"), new DirectionHandler()),
+            new HandlerMapping(Class.forName("edu.ship.engr.messages.Grow"), new GrowHandler())
     };
 
     public void process(Message<?> msg)

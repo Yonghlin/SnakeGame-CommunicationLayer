@@ -1,5 +1,9 @@
 package edu.ship.engr.presentation.gameobjects;
 
+import edu.ship.engr.messages.Grow;
+import edu.ship.engr.messages.InitializeSnake;
+import edu.ship.engr.messages.Message;
+import edu.ship.engr.peertopeer.PlayRunner;
 import edu.ship.engr.presentation.SnakeGame;
 
 import java.util.ArrayList;
@@ -74,7 +78,7 @@ public class Snake {
         int lastPartXPos = lastBodyPart.getXPosition();
         int lastPartYPos = lastBodyPart.getYPosition();
 
-        switch (this.direction) {
+        switch (direction) {
             case "right":
                 addPartToBody(lastPartXPos - SnakeGame.UNIT_SIZE, lastPartYPos);
                 break;

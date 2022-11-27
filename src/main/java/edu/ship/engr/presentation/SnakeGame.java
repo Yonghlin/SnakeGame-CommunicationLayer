@@ -1,6 +1,7 @@
 package edu.ship.engr.presentation;
 
 import edu.ship.engr.messages.AppleLocation;
+import edu.ship.engr.messages.Direction;
 import edu.ship.engr.messages.Message;
 import edu.ship.engr.messages.PlayerDeath;
 import edu.ship.engr.peertopeer.PlayRunner;
@@ -21,9 +22,11 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     private static final boolean DRAW_GRID = false;
     private GameFrame window;
     protected final int SPEED = 25;
+    protected final int DELAY = 500;
     protected Snake snake;
     protected Snake otherSnake;
     protected Apple apple;
+    protected boolean isHost;
 
     /**
      * Creates a new JPanel to contain the snake game
@@ -69,9 +72,9 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     /**
      * Ends the game
      */
-    private void endGame() {
+    public void endGame() {
         System.out.println("Sending death message");
-        PlayerDeath playerDeath = new PlayerDeath(true);
+        PlayerDeath playerDeath = new PlayerDeath(isHost);
         PlayRunner.messageAccumulator.queueMessage(new Message<>(playerDeath));
 
         System.out.println("You lose!");
@@ -143,6 +146,21 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     }
 
     /**
+     * Changes the direction of the other snake
+     * @param newDirection the direction to change in
+     */
+    public void setOtherSnakeDirection(String newDirection) {
+        otherSnake.setDirection(newDirection);
+    }
+
+    /**
+     *
+     */
+    public void growOtherSnake() {
+        otherSnake.grow();
+    }
+
+    /**
      * Adds another snake to an existing board
      * @param startingXPos
      * @param startingYPos
@@ -190,6 +208,12 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
         drawApple(g);
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) { }
+
+    @Override
+    public void keyReleased(KeyEvent e) { }
+
     /**
      * Listens for a key press
      * @param e the event to be processed
@@ -197,28 +221,29 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-
-        // TODO: incorporate messaging with this
+        Direction directionMsg = null;
 
         if (keyCode == 39 && !snake.getDirection().equals("left")) {
+            directionMsg = new Direction(isHost, "right");
             snake.setDirection("right");
 
         } else if (keyCode == 37 && !snake.getDirection().equals("right")) {
+            directionMsg = new Direction(isHost, "left");
             snake.setDirection("left");
 
         } else if (keyCode == 38 && !snake.getDirection().equals("down")) {
+            directionMsg = new Direction(isHost, "up");
             snake.setDirection("up");
 
         } else if (keyCode == 40 && !snake.getDirection().equals("up")) {
+            directionMsg = new Direction(isHost, "down");
             snake.setDirection("down");
         }
+
+        if (directionMsg != null) {
+            PlayRunner.messageAccumulator.queueMessage(new Message<>(directionMsg));
+        }
     }
-
-    @Override
-    public void keyTyped(KeyEvent e) { }
-
-    @Override
-    public void keyReleased(KeyEvent e) { }
 
     /**
      * Redraws the screen after an action
