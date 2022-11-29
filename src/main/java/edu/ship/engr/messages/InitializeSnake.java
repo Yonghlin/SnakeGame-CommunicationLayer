@@ -3,6 +3,7 @@ package edu.ship.engr.messages;
 import java.awt.*;
 import java.util.LinkedHashMap;
 
+
 public class InitializeSnake {
     private final int x;
     private final int y;

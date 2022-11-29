@@ -4,9 +4,11 @@ import java.util.LinkedHashMap;
 
 public class Grow {
     private boolean host;
+    private int clock;
 
-    public Grow(boolean host) {
+    public Grow(boolean host, int clock) {
         this.host = host;
+        this.clock = clock;
     }
 
     public Grow(LinkedHashMap<String, Object> p)

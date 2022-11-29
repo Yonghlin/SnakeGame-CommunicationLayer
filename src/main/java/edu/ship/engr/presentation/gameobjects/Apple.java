@@ -27,7 +27,7 @@ public class Apple {
         yPosition = new Random().nextInt(SnakeGame.SCREEN_HEIGHT/ SnakeGame.UNIT_SIZE) * SnakeGame.UNIT_SIZE;
 
         System.out.println("Sending apple location message");
-        AppleLocation appleLocation = new AppleLocation(xPosition, yPosition, isHost);
+        AppleLocation appleLocation = new AppleLocation(isHost, SnakeGame.clock.getUpdatedClock(), xPosition, yPosition);
         PlayRunner.messageAccumulator.queueMessage(new Message<>(appleLocation));
     }
 

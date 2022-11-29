@@ -27,6 +27,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     protected Snake otherSnake;
     protected Apple apple;
     protected boolean isHost;
+    public static MessageClock clock;
 
     /**
      * Creates a new JPanel to contain the snake game
@@ -36,6 +37,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
         this.window = window;
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(BACKGROUND_COLOR);
+        clock = new MessageClock();
         window.addKeyListener(this);
     }
 
@@ -74,7 +76,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
      */
     public void endGame() {
         System.out.println("Sending death message");
-        PlayerDeath playerDeath = new PlayerDeath(isHost);
+        PlayerDeath playerDeath = new PlayerDeath(isHost, clock.getUpdatedClock());
         PlayRunner.messageAccumulator.queueMessage(new Message<>(playerDeath));
 
         System.out.println("You lose!");
@@ -224,19 +226,19 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
         Direction directionMsg = null;
 
         if (keyCode == 39 && !snake.getDirection().equals("left")) {
-            directionMsg = new Direction(isHost, "right");
+            directionMsg = new Direction(isHost,  clock.getUpdatedClock(),"right");
             snake.setDirection("right");
 
         } else if (keyCode == 37 && !snake.getDirection().equals("right")) {
-            directionMsg = new Direction(isHost, "left");
+            directionMsg = new Direction(isHost, clock.getUpdatedClock(), "left");
             snake.setDirection("left");
 
         } else if (keyCode == 38 && !snake.getDirection().equals("down")) {
-            directionMsg = new Direction(isHost, "up");
+            directionMsg = new Direction(isHost,  clock.getUpdatedClock(),"up");
             snake.setDirection("up");
 
         } else if (keyCode == 40 && !snake.getDirection().equals("up")) {
-            directionMsg = new Direction(isHost, "down");
+            directionMsg = new Direction(isHost, clock.getUpdatedClock(), "down");
             snake.setDirection("down");
         }
 

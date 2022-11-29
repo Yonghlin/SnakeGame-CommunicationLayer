@@ -4,10 +4,12 @@ import java.util.LinkedHashMap;
 
 public class Direction {
     private boolean host;
+    private int clock;
     private final String direction;
 
-    public Direction(boolean host, String direction) {
+    public Direction(boolean host, int clock, String direction) {
         this.host = host;
+        this.clock = clock;
         this.direction = direction;
     }
 
@@ -15,6 +17,7 @@ public class Direction {
     {
         this.host = (boolean) p.get("host");
         this.direction = p.get("direction").toString();
+        this.clock = (Integer) p.get("clock");
     }
 
     public String getDirection()
@@ -22,12 +25,14 @@ public class Direction {
         return direction;
     }
     public boolean getHost() { return host; }
+    public int getClock() { return clock; }
 
     @Override
     public String toString()
     {
         return "Direction{" +
                 "host = " + host +
+                ", clock = " + clock +
                 ", direction = " + direction +
                 "}";
     }

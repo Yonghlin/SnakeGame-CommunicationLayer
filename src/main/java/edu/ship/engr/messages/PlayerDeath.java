@@ -4,9 +4,17 @@ import java.util.LinkedHashMap;
 
 public class PlayerDeath {
     private boolean host;
-    public PlayerDeath(boolean host) { this.host = host; }
+    private int clock;
 
-    public PlayerDeath(LinkedHashMap<String, Object> p) { host = (boolean) p.get("host"); }
+    public PlayerDeath(boolean host, int clock) {
+        this.host = host;
+        this.clock = clock;
+    }
+
+    public PlayerDeath(LinkedHashMap<String, Object> p) {
+        host = (boolean) p.get("host");
+        clock = (Integer) p.get("clock");
+    }
 
     @Override
     public String toString() { return "Player has died!"; }

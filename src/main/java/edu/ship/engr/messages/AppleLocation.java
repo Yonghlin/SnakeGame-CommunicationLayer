@@ -6,11 +6,13 @@ public class AppleLocation {
     private final int x;
     private final int y;
     private boolean host;
+    private int clock;
 
-    public AppleLocation(int x, int y, boolean host) {
+    public AppleLocation(boolean host, int clock, int x, int y) {
+        this.host = host;
         this.x = x;
         this.y = y;
-        this.host = host;
+        this.clock = clock;
     }
 
     public AppleLocation(LinkedHashMap<String, Object> p)
@@ -18,6 +20,11 @@ public class AppleLocation {
         x = (Integer) p.get("x");
         y = (Integer) p.get("y");
         host = (boolean) p.get("host");
+        clock = (Integer) p.get("clock");
+    }
+
+    public int getClock() {
+        return clock;
     }
 
     public boolean gethost() {
@@ -34,6 +41,7 @@ public class AppleLocation {
         return y;
     }
 
+
     @Override
     public String toString()
     {
@@ -41,6 +49,7 @@ public class AppleLocation {
                 "X = " + x +
                 ", Y = " + y +
                 ", host = " + host +
+                ", clock = " + clock +
                 "}";
     }
 }
