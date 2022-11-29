@@ -226,7 +226,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
         Direction directionMsg = null;
 
         if (keyCode == 39 && !snake.getDirection().equals("left")) {
-            directionMsg = new Direction(isHost,  clock.getUpdatedClock(),"right");
+            directionMsg = new Direction(isHost, clock.getUpdatedClock(),"right");
             snake.setDirection("right");
 
         } else if (keyCode == 37 && !snake.getDirection().equals("right")) {
@@ -234,7 +234,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
             snake.setDirection("left");
 
         } else if (keyCode == 38 && !snake.getDirection().equals("down")) {
-            directionMsg = new Direction(isHost,  clock.getUpdatedClock(),"up");
+            directionMsg = new Direction(isHost, clock.getUpdatedClock(),"up");
             snake.setDirection("up");
 
         } else if (keyCode == 40 && !snake.getDirection().equals("up")) {

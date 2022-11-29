@@ -14,11 +14,14 @@ public class Grow {
     public Grow(LinkedHashMap<String, Object> p)
     {
         host = (boolean) p.get("host");
+        this.clock = (Integer) p.get("clock");
     }
 
     public boolean getHost() {
         return host;
     }
+
+    public int getClock() {return clock;}
 
     @Override
     public String toString()

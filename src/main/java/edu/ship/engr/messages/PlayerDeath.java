@@ -20,4 +20,5 @@ public class PlayerDeath {
     public String toString() { return "Player has died!"; }
 
     public boolean getHost() { return host; }
+    public int getClock() {return clock;}
 }
