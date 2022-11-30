@@ -53,7 +53,7 @@ public class PeerSnakeGame extends SnakeGame {
                 snake.grow();
                 apple.spawnApple(false);
 
-                Grow growSnake = new Grow(false);
+                Grow growSnake = new Grow(false, SnakeGame.clock.getUpdatedClock());
                 PlayRunner.messageAccumulator.queueMessage(new Message<>(growSnake));
             }
         }

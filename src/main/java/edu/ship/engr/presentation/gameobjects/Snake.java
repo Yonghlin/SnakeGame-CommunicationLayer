@@ -39,13 +39,12 @@ public class Snake {
      * Uses the snakes old position to move it forward depending on its current direction
      */
     public void move() {
-        // TODO: Figure out how to handle both snakes
         ArrayList<Rectangle> newBody = new ArrayList<>();
 
         Rectangle oldHead = body.get(0);
         Rectangle newHead = new Rectangle(oldHead.getXPosition(), oldHead.getYPosition());
 
-        switch (this.direction) {
+        switch (direction) {
             case "right":
                 newHead.setXPosition(speed);
                 break;
@@ -68,6 +67,41 @@ public class Snake {
         }
 
         body = newBody;
+    }
+
+//    0 1 2 3
+//    H B B T
+
+    public void rollback(int rollback, String prevDir) {
+        for (int rollBackAmt = 0; rollBackAmt < rollback; rollBackAmt++) {
+            ArrayList<Rectangle> newBody = new ArrayList<>();
+
+            for (int i = 0; i < body.size() - 1; i++) {
+                Rectangle previousBodyPart = body.get(i + 1);
+                Rectangle newBodyPart = new Rectangle(previousBodyPart.getXPosition(), previousBodyPart.getYPosition());
+                newBody.add(newBodyPart);
+            }
+            Rectangle oldTail = body.get(body.size() - 1);
+            Rectangle newTail = new Rectangle(oldTail.getXPosition(), oldTail.getYPosition());
+
+            switch (prevDir) {
+                case "right":
+                    newTail.setXPosition(-speed);
+                    break;
+                case "left":
+                    newTail.setXPosition(speed);
+                    break;
+                case "up":
+                    newTail.setYPosition(speed);
+                    break;
+                case "down":
+                    newTail.setYPosition(-speed);
+                    break;
+            }
+            newBody.add(newTail);
+
+            body = newBody;
+        }
     }
 
     /**

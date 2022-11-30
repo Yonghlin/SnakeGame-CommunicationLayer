@@ -4,6 +4,7 @@ import edu.ship.engr.messages.Direction;
 import edu.ship.engr.messages.Message;
 import edu.ship.engr.presentation.GameFrame;
 import edu.ship.engr.presentation.SnakeGame;
+import edu.ship.engr.presentation.gameobjects.Rectangle;
 
 import java.util.LinkedHashMap;
 
@@ -26,5 +27,8 @@ public class DirectionHandler implements Handler {
 
         SnakeGame gameToProcess = direction.getHost() ? GameFrame.peerSnakeGame : GameFrame.hostSnakeGame;
         gameToProcess.setOtherSnakeDirection(direction.getDirection());
+        gameToProcess.adjustOtherSnake(direction.getPreviousDirection(), direction.getCurrentGamesTick());
+
+        System.out.println("Got movement on game tick: " + gameToProcess.getGameTick());
     }
 }

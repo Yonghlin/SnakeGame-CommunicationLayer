@@ -27,6 +27,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     protected Snake otherSnake;
     protected Apple apple;
     protected boolean isHost;
+    protected int gameTick = 0;
     public static MessageClock clock;
 
     /**
@@ -158,6 +159,16 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     /**
      *
      */
+    public void adjustOtherSnake(String otherSnakePrevDir, int otherGamesTick) {
+        int tickOffBy = gameTick - otherGamesTick;
+        if (tickOffBy > 0) {
+            otherSnake.rollback(tickOffBy, otherSnakePrevDir);
+        }
+    }
+
+    /**
+     *
+     */
     public void growOtherSnake() {
         otherSnake.grow();
     }
@@ -172,6 +183,14 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
      */
     public void addSnake(int startingXPos, int startingYPos, int speed, Color headColor, Color bodyColor) {
         otherSnake = new Snake(startingXPos, startingYPos, speed, headColor, bodyColor);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getGameTick() {
+        return gameTick;
     }
 
     /**
@@ -223,27 +242,28 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        Direction directionMsg = null;
+        String direction = null;
 
         if (keyCode == 39 && !snake.getDirection().equals("left")) {
-            directionMsg = new Direction(isHost,  clock.getUpdatedClock(),"right");
-            snake.setDirection("right");
+            direction = "right";
 
         } else if (keyCode == 37 && !snake.getDirection().equals("right")) {
-            directionMsg = new Direction(isHost, clock.getUpdatedClock(), "left");
-            snake.setDirection("left");
+            direction = "left";
 
         } else if (keyCode == 38 && !snake.getDirection().equals("down")) {
-            directionMsg = new Direction(isHost,  clock.getUpdatedClock(),"up");
-            snake.setDirection("up");
+            direction = "up";
 
         } else if (keyCode == 40 && !snake.getDirection().equals("up")) {
-            directionMsg = new Direction(isHost, clock.getUpdatedClock(), "down");
-            snake.setDirection("down");
+            direction = "down";
         }
 
-        if (directionMsg != null) {
+        if (direction != null) {
+            System.out.println("Sent movement on game tick: " + gameTick);
+
+            Direction directionMsg = new Direction(isHost, clock.getUpdatedClock(), direction, snake.getDirection(), snake.getBody(), gameTick);
             PlayRunner.messageAccumulator.queueMessage(new Message<>(directionMsg));
+
+            snake.setDirection(direction);
         }
     }
 
@@ -253,6 +273,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        gameTick++;
         repaint();
     }
 }

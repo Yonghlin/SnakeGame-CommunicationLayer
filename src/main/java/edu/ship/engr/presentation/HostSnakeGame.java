@@ -53,7 +53,7 @@ public class HostSnakeGame extends SnakeGame {
                 snake.grow();
                 apple.spawnApple(true);
 
-                Grow growSnake = new Grow(true);
+                Grow growSnake = new Grow(true, SnakeGame.clock.getUpdatedClock());
                 PlayRunner.messageAccumulator.queueMessage(new Message<>(growSnake));
             }
         }
