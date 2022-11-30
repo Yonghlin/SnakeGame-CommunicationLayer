@@ -21,4 +21,5 @@ public class PlayerDeath {
 
     public boolean getHost() { return host; }
     public int getClock() { return clock; }
+    public int getClock() {return clock;}
 }

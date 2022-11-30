@@ -17,6 +17,7 @@ public class MessageAccumulator
      * need this to be visible to the tests
      */
     protected ArrayList<Message<?>> pendingMsgs;
+    protected ArrayList<Message<?>> msgHistory;
 
     /**
      *
@@ -24,7 +25,7 @@ public class MessageAccumulator
     public MessageAccumulator()
     {
         pendingMsgs = new ArrayList<>();
-
+        msgHistory = new ArrayList<>();
     }
 
     /**
@@ -50,7 +51,12 @@ public class MessageAccumulator
         synchronized (pendingMsgs)
         {
             pendingMsgs.add(msg);
+            msgHistory.add(msg);
         }
+    }
+
+    public void clearHistory() {
+        msgHistory = new ArrayList<>();
     }
 
     /**

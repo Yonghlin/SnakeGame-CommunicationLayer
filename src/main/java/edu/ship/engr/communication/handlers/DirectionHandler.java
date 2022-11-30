@@ -27,8 +27,12 @@ public class DirectionHandler implements Handler {
 
         SnakeGame gameToProcess = direction.getHost() ? GameFrame.peerSnakeGame : GameFrame.hostSnakeGame;
         gameToProcess.setOtherSnakeDirection(direction.getDirection());
+<<<<<<< HEAD
         gameToProcess.adjustOtherSnake(direction.getPreviousDirection(), direction.getCurrentGamesTick());
 
         System.out.println("Got movement on game tick: " + gameToProcess.getGameTick());
+=======
+
+>>>>>>> 9d5b92b4aa53e55075662b08d3f0e332d959d2ad
     }
 }

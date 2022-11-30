@@ -1,6 +1,5 @@
 package edu.ship.engr.presentation;
 
-import edu.ship.engr.messages.Direction;
 import edu.ship.engr.messages.Grow;
 import edu.ship.engr.messages.Message;
 import edu.ship.engr.messages.InitializeSnake;
@@ -11,7 +10,6 @@ import edu.ship.engr.presentation.gameobjects.Snake;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class PeerSnakeGame extends SnakeGame {
     /**
@@ -37,7 +35,7 @@ public class PeerSnakeGame extends SnakeGame {
 
         snake = new Snake(75, 25, SPEED, new Color(145, 67, 67), new Color(150, 17, 23));
 
-        InitializeSnake initializeSnake = new InitializeSnake(false, 100, 25, SPEED, "145,67,67", "150,17,23");
+        InitializeSnake initializeSnake = new InitializeSnake(false, SnakeGame.clock.getUpdatedClock(),100, 25, SPEED, "145,67,67", "150,17,23");
         PlayRunner.messageAccumulator.queueMessage(new Message<>(initializeSnake));
     }
 

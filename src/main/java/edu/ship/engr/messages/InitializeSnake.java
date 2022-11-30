@@ -3,7 +3,6 @@ package edu.ship.engr.messages;
 import java.awt.*;
 import java.util.LinkedHashMap;
 
-
 public class InitializeSnake {
     private final int x;
     private final int y;
@@ -11,9 +10,11 @@ public class InitializeSnake {
     private String headColor;
     private String bodyColor;
     private boolean host;
+    private int clock;
 
-    public InitializeSnake(boolean host, int x, int y, int speed, String headColor, String bodyColor) {
+    public InitializeSnake(boolean host, int clock, int x, int y, int speed, String headColor, String bodyColor) {
         this.host = host;
+        this.clock = clock;
         this.x = x;
         this.y = y;
         this.speed = speed;
@@ -23,6 +24,7 @@ public class InitializeSnake {
 
     public InitializeSnake(LinkedHashMap<String, Object> p) {
         host = (boolean) p.get("host");
+        clock = (Integer) p.get("clock");
         x = (Integer) p.get("x");
         y = (Integer) p.get("y");
         speed = (Integer) p.get("speed");
@@ -44,6 +46,7 @@ public class InitializeSnake {
     }
 
     public boolean getHost() { return host; }
+    public int getClock() {return clock;}
     public int getX()
     {
         return x;
