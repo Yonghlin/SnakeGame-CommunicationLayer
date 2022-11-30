@@ -25,7 +25,7 @@ public class MessageAccumulator
     public MessageAccumulator()
     {
         pendingMsgs = new ArrayList<>();
-
+        msgHistory = new ArrayList<>();
     }
 
     /**
