@@ -31,7 +31,11 @@ public class PlayRunner
         }
         else
         {
-            socket = new Socket("localhost", 4242);
+            if (args.length >= 1) {
+                socket = new Socket(args[0], 4242);
+            } else {
+                socket = new Socket("localhost", 4242);
+            }
         }
 
         new ConnectionManager(socket, messageAccumulator);
