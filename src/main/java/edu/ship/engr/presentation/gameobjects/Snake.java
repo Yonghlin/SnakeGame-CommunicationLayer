@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.awt.Color;
 
 public class Snake {
+    private final int MAX_ROLLBACK = 5;
     private ArrayList<Rectangle> body = new ArrayList<>();
+    private ArrayList<ArrayList<Rectangle>> previousBodyPositions = new ArrayList<>();
     private String direction;
     private int speed;
     private Color headColor;
@@ -30,6 +32,7 @@ public class Snake {
         Rectangle bodySegment = new Rectangle(head.getXPosition() - SnakeGame.UNIT_SIZE, head.getYPosition());
         body.add(bodySegment);
 
+        this.previousBodyPositions.add(body);
         this.direction = "right";
         this.speed = speed;
         this.headColor = headColor;
@@ -68,43 +71,28 @@ public class Snake {
             newBody.add(newBodyPart);
         }
 
+        if (previousBodyPositions.size() == MAX_ROLLBACK) {
+            previousBodyPositions.remove(0);
+            previousBodyPositions.add(body);
+        } else {
+            previousBodyPositions.add(body);
+        }
+
         body = newBody;
     }
 
-    public void rollback(int rollback, String prevDir) {
-        canUpdate = false;
+    /**
+     * Rolls the snake back to a previous position
+     * @param rollback how many positions to revert the snake by
+     */
+    public void rollback(int rollback) {
+        int rollbackPositionIndex = (rollback > previousBodyPositions.size()) ? previousBodyPositions.size() - 1 : MAX_ROLLBACK - rollback;
+        body = previousBodyPositions.get(rollbackPositionIndex);
+        move();
 
-        for (int rollBackAmt = 0; rollBackAmt < rollback; rollBackAmt++) {
-            ArrayList<Rectangle> newBody = new ArrayList<>();
-
-            for (int i = 0; i < body.size() - 1; i++) {
-                Rectangle previousBodyPart = body.get(i + 1);
-                Rectangle newBodyPart = new Rectangle(previousBodyPart.getXPosition(), previousBodyPart.getYPosition());
-                newBody.add(newBodyPart);
-            }
-            Rectangle oldTail = body.get(body.size() - 1);
-            Rectangle newTail = new Rectangle(oldTail.getXPosition(), oldTail.getYPosition());
-
-            switch (prevDir) {
-                case "right":
-                    newTail.setXPosition(-speed);
-                    break;
-                case "left":
-                    newTail.setXPosition(speed);
-                    break;
-                case "up":
-                    newTail.setYPosition(speed);
-                    break;
-                case "down":
-                    newTail.setYPosition(-speed);
-                    break;
-            }
-            newBody.add(newTail);
-
-            body = newBody;
+        for (int i = rollbackPositionIndex; i < MAX_ROLLBACK; i++) {
+            previousBodyPositions.remove(i);
         }
-
-        canUpdate = true;
     }
 
     /**
@@ -178,5 +166,8 @@ public class Snake {
         return direction;
     }
 
+    /**
+     * @return true if the game should update the snake entity
+     */
     public boolean getCanUpdate() { return canUpdate; }
 }

@@ -35,7 +35,7 @@ public class PeerSnakeGame extends SnakeGame {
 
         snake = new Snake(75, 25, SPEED, new Color(145, 67, 67), new Color(150, 17, 23));
 
-        InitializeSnake initializeSnake = new InitializeSnake(false, SnakeGame.clock.getUpdatedClock(),100, 25, SPEED, "145,67,67", "150,17,23");
+        InitializeSnake initializeSnake = new InitializeSnake(false, SnakeGame.clock.getUpdatedClock(),75, 25, SPEED, "145,67,67", "150,17,23");
         PlayRunner.messageAccumulator.queueMessage(new Message<>(initializeSnake));
     }
 

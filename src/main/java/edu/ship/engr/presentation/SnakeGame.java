@@ -19,10 +19,10 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     public static final int SCREEN_HEIGHT = 550;
     public static final int UNIT_SIZE = 25;
     private static final Color BACKGROUND_COLOR = new Color(115,162,78);
-    private static final boolean DRAW_GRID = false;
+    private static final boolean DRAW_GRID = true;
     private GameFrame window;
     protected final int SPEED = 25;
-    protected final int DELAY = 500;
+    protected final int DELAY = 400;
     protected Snake snake;
     protected Snake otherSnake;
     protected Apple apple;
@@ -97,6 +97,8 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
 
         JFrame parent = new JFrame("Game over!");
         JOptionPane.showMessageDialog(parent, "Snake1's score: " + snake.getBody().size());
+        JOptionPane.showMessageDialog(parent, "Snake2's score: " + otherSnake.getBody().size());
+
 
         window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
         System.exit(0);
@@ -108,11 +110,8 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
      */
     private void drawSnake(Graphics g) {
         Graphics2D g2D = (Graphics2D) g;
-        if (snake.getCanUpdate()) {
-            updateSnake(snake, g2D);
-        }
-
-        if (otherSnake != null && otherSnake.getCanUpdate()) { updateSnake(otherSnake, g2D); }
+        updateSnake(snake, g2D);
+        if (otherSnake != null) { updateSnake(otherSnake, g2D); }
         checkCollision();
     }
 
@@ -174,10 +173,12 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     /**
      *
      */
-    public void adjustOtherSnake(String otherSnakePrevDir, int otherGamesTick) {
-        int tickOffBy = gameTick - otherGamesTick;
-        if (tickOffBy > 0) {
-            otherSnake.rollback(tickOffBy, otherSnakePrevDir);
+    public void adjustOtherSnake(int otherGamesTick, String newDirection) {
+        setOtherSnakeDirection(newDirection);
+
+        int ticksPositionsOffBy = gameTick - otherGamesTick;
+        if (ticksPositionsOffBy > 0) {
+            otherSnake.rollback(ticksPositionsOffBy);
         }
     }
 
@@ -240,15 +241,11 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
             drawGrid(g);
         }
 
-        drawSnake(g);
-        drawApple(g);
+        if (gameTick >= 3) {
+            drawSnake(g);
+            drawApple(g);
+        }
     }
-
-    @Override
-    public void keyTyped(KeyEvent e) { }
-
-    @Override
-    public void keyReleased(KeyEvent e) { }
 
     /**
      * Listens for a key press
@@ -259,28 +256,32 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
         int keyCode = e.getKeyCode();
         String direction = null;
 
-        if (keyCode == 39 && !snake.getDirection().equals("left")) {
+        if ((keyCode == 39 || keyCode == 68) && !snake.getDirection().equals("left")) {
             direction = "right";
 
-        } else if (keyCode == 37 && !snake.getDirection().equals("right")) {
+        } else if ((keyCode == 37 || keyCode == 65) && !snake.getDirection().equals("right")) {
             direction = "left";
 
-        } else if (keyCode == 38 && !snake.getDirection().equals("down")) {
+        } else if ((keyCode == 38 || keyCode == 87) && !snake.getDirection().equals("down")) {
             direction = "up";
 
-        } else if (keyCode == 40 && !snake.getDirection().equals("up")) {
+        } else if ((keyCode == 40|| keyCode == 83) &&  !snake.getDirection().equals("up")) {
             direction = "down";
         }
 
         if (direction != null) {
-            System.out.println("Sent movement on game tick: " + gameTick);
-
-            Direction directionMsg = new Direction(isHost, clock.getUpdatedClock(), direction, snake.getDirection(), snake.getBody(), gameTick);
+            Direction directionMsg = new Direction(isHost, clock.getUpdatedClock(), direction, snake.getDirection(), gameTick);
             PlayRunner.messageAccumulator.queueMessage(new Message<>(directionMsg));
 
             snake.setDirection(direction);
         }
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) { }
+
+    @Override
+    public void keyReleased(KeyEvent e) { }
 
     /**
      * Redraws the screen after an action
