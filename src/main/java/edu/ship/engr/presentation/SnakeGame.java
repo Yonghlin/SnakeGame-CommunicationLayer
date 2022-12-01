@@ -69,6 +69,18 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
             }
         }
 
+        // Check intersect with othersnake
+        if (otherSnake != null) {
+            ArrayList<Rectangle> otherSnakeBody = otherSnake.getBody();
+            for (int i = 0; i < otherSnakeBody.size(); i++) {
+                Rectangle currentBodyPart = otherSnakeBody.get(i);
+
+                if (snakeHead.intersects(currentBodyPart)) {
+                    endGame();
+                }
+            }
+        }
+
         checkAppleCollision(snakeHead);
     }
 
@@ -96,8 +108,11 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
      */
     private void drawSnake(Graphics g) {
         Graphics2D g2D = (Graphics2D) g;
-        updateSnake(snake, g2D);
-        if (otherSnake != null) { updateSnake(otherSnake, g2D); }
+        if (snake.getCanUpdate()) {
+            updateSnake(snake, g2D);
+        }
+
+        if (otherSnake != null && otherSnake.getCanUpdate()) { updateSnake(otherSnake, g2D); }
         checkCollision();
     }
 

@@ -15,6 +15,7 @@ public class Snake {
     private int speed;
     private Color headColor;
     private Color bodyColor;
+    private boolean canUpdate;
 
     /**
      * Creates a new snake
@@ -33,6 +34,7 @@ public class Snake {
         this.speed = speed;
         this.headColor = headColor;
         this.bodyColor = bodyColor;
+        this.canUpdate = true;
     }
 
     /**
@@ -69,10 +71,9 @@ public class Snake {
         body = newBody;
     }
 
-//    0 1 2 3
-//    H B B T
-
     public void rollback(int rollback, String prevDir) {
+        canUpdate = false;
+
         for (int rollBackAmt = 0; rollBackAmt < rollback; rollBackAmt++) {
             ArrayList<Rectangle> newBody = new ArrayList<>();
 
@@ -102,6 +103,8 @@ public class Snake {
 
             body = newBody;
         }
+
+        canUpdate = true;
     }
 
     /**
@@ -160,7 +163,6 @@ public class Snake {
      * @return the color of the snakes body
      */
     public Color getBodyColor() { return bodyColor; }
-
     /**
      * Sets the snakes moving direction
      * @param newDirection new direction to move in
@@ -175,4 +177,6 @@ public class Snake {
     public String getDirection() {
         return direction;
     }
+
+    public boolean getCanUpdate() { return canUpdate; }
 }
