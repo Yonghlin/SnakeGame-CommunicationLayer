@@ -21,7 +21,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     protected final int DELAY = 400;
     private static final Color BACKGROUND_COLOR = new Color(115,162,78);
     private static final boolean DRAW_GRID = false;
-    private GameFrame window;
+    private final GameFrame window;
     protected Snake snake;
     protected Snake otherSnake;
     protected Apple apple;
@@ -66,12 +66,10 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
             }
         }
 
-        // Check intersect with othersnake
+        // Check intersect with other snake
         if (otherSnake != null) {
             ArrayList<Rectangle> otherSnakeBody = otherSnake.getBody();
-            for (int i = 0; i < otherSnakeBody.size(); i++) {
-                Rectangle currentBodyPart = otherSnakeBody.get(i);
-
+            for (Rectangle currentBodyPart : otherSnakeBody) {
                 if (snakeHead.intersects(currentBodyPart)) {
                     endGame();
                 }
@@ -169,13 +167,13 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
 
     /**
      * Changes the other snakes direction and syncs its position
-     * @param otherGamesTick
-     * @param newDirection
+     * @param otherGamesClock the time the other game was on when the message was sent
+     * @param newDirection the direction to change the snake to
      */
-    public void adjustOtherSnake(int otherGamesTick, String newDirection) {
+    public void adjustOtherSnake(int otherGamesClock, String newDirection) {
         setOtherSnakeDirection(newDirection);
 
-        int ticksPositionsOffBy = gameClock - otherGamesTick;
+        int ticksPositionsOffBy = gameClock - otherGamesClock;
         if (ticksPositionsOffBy > 0) {
             otherSnake.rollback(ticksPositionsOffBy);
         }

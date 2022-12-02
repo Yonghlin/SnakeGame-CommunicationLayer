@@ -8,11 +8,11 @@ import java.awt.Color;
 public class Snake {
     private final int MAX_ROLLBACK = 5;
     private ArrayList<Rectangle> body = new ArrayList<>();
-    private ArrayList<ArrayList<Rectangle>> previousBodyPositions = new ArrayList<>();
+    private final ArrayList<ArrayList<Rectangle>> previousBodyPositions = new ArrayList<>();
     private String direction;
-    private int speed;
-    private Color headColor;
-    private Color bodyColor;
+    private final int speed;
+    private final Color headColor;
+    private final Color bodyColor;
     private boolean canUpdate;
 
 
@@ -51,18 +51,10 @@ public class Snake {
         Rectangle newHead = new Rectangle(oldHead.getXPosition(), oldHead.getYPosition());
 
         switch (direction) {
-            case "right":
-                newHead.setXPosition(speed);
-                break;
-            case "left":
-                newHead.setXPosition(-speed);
-                break;
-            case "up":
-                newHead.setYPosition(-speed);
-                break;
-            case "down":
-                newHead.setYPosition(speed);
-                break;
+            case "right" -> newHead.setXPosition(speed);
+            case "left" -> newHead.setXPosition(-speed);
+            case "up" -> newHead.setYPosition(-speed);
+            case "down" -> newHead.setYPosition(speed);
         }
         newBody.add(newHead);
 
@@ -109,18 +101,10 @@ public class Snake {
         int lastPartYPos = lastBodyPart.getYPosition();
 
         switch (direction) {
-            case "right":
-                addPartToBody(lastPartXPos - SnakeGame.UNIT_SIZE, lastPartYPos);
-                break;
-            case "left":
-                addPartToBody(lastPartXPos + SnakeGame.UNIT_SIZE, lastPartYPos);
-                break;
-            case "up":
-                addPartToBody(lastPartXPos, lastPartYPos + SnakeGame.UNIT_SIZE);
-                break;
-            case "down":
-                addPartToBody(lastPartXPos, lastPartYPos - SnakeGame.UNIT_SIZE);
-                break;
+            case "right" -> addPartToBody(lastPartXPos - SnakeGame.UNIT_SIZE, lastPartYPos);
+            case "left" -> addPartToBody(lastPartXPos + SnakeGame.UNIT_SIZE, lastPartYPos);
+            case "up" -> addPartToBody(lastPartXPos, lastPartYPos + SnakeGame.UNIT_SIZE);
+            case "down" -> addPartToBody(lastPartXPos, lastPartYPos - SnakeGame.UNIT_SIZE);
         }
     }
 
