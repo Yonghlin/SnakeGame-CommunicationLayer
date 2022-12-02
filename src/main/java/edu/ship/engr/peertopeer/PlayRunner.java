@@ -23,7 +23,6 @@ public class PlayRunner
         Socket socket;
         if (isHost(args))
         {
-
             try (ServerSocket serverSocket = new ServerSocket(4242, 10))
             {
                 socket = serverSocket.accept();
@@ -56,7 +55,5 @@ public class PlayRunner
     {
         return args.length >=1 && args[0].equals("-host");
     }
-
-
 }
 
