@@ -1,9 +1,5 @@
 package edu.ship.engr.presentation.gameobjects;
 
-import edu.ship.engr.messages.Grow;
-import edu.ship.engr.messages.InitializeSnake;
-import edu.ship.engr.messages.Message;
-import edu.ship.engr.peertopeer.PlayRunner;
 import edu.ship.engr.presentation.SnakeGame;
 
 import java.util.ArrayList;
@@ -19,13 +15,18 @@ public class Snake {
     private Color bodyColor;
     private boolean canUpdate;
 
+
     /**
      * Creates a new snake
+     *
      * @param startingXPos the snakes starting x position
      * @param startingYPos the snakes starting y position
      * @param speed the snakes speed
+     * @param startingDirection the direction the snake starts moving in
+     * @param headColor the color of the snakes head
+     * @param bodyColor the color of the snakes body
      */
-    public Snake(int startingXPos, int startingYPos, int speed, Color headColor, Color bodyColor) {
+    public Snake(int startingXPos, int startingYPos, int speed, String startingDirection, Color headColor, Color bodyColor) {
         Rectangle head = new Rectangle(startingXPos, startingYPos);
         body.add(head);
 
@@ -33,7 +34,7 @@ public class Snake {
         body.add(bodySegment);
 
         this.previousBodyPositions.add(body);
-        this.direction = "right";
+        this.direction = startingDirection;
         this.speed = speed;
         this.headColor = headColor;
         this.bodyColor = bodyColor;
@@ -86,6 +87,8 @@ public class Snake {
      * @param rollback how many positions to revert the snake by
      */
     public void rollback(int rollback) {
+        canUpdate = false;
+
         int rollbackPositionIndex = (rollback > previousBodyPositions.size()) ? previousBodyPositions.size() - 1 : MAX_ROLLBACK - rollback;
         body = previousBodyPositions.get(rollbackPositionIndex);
         move();
@@ -93,6 +96,8 @@ public class Snake {
         for (int i = rollbackPositionIndex; i < MAX_ROLLBACK; i++) {
             previousBodyPositions.remove(i);
         }
+
+        canUpdate = true;
     }
 
     /**

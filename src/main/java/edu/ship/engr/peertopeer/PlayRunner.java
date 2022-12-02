@@ -6,8 +6,6 @@ import java.net.Socket;
 
 import edu.ship.engr.communication.ConnectionManager;
 import edu.ship.engr.communication.MessageAccumulator;
-import edu.ship.engr.messages.FirstObjectToSend;
-import edu.ship.engr.messages.Message;
 import edu.ship.engr.presentation.GameFrame;
 
 public class PlayRunner
@@ -41,10 +39,6 @@ public class PlayRunner
 
         if (isHost(args))
         {
-//            System.out.println("Sending msg");
-//            FirstObjectToSend x = new FirstObjectToSend(42, 59);
-//            messageAccumulator.queueMessage(new Message<>(x));
-
             new GameFrame(true);
         } else {
             new GameFrame(false);

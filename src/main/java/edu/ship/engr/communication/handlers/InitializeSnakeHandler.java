@@ -21,6 +21,6 @@ public class InitializeSnakeHandler implements Handler {
         Color bodyColor = new Color(Integer.parseInt(bodyRGBValues[0]), Integer.parseInt(bodyRGBValues[1]), Integer.parseInt(bodyRGBValues[2]));
 
         SnakeGame gameToProcess = initializeMsg.getHost() ? GameFrame.peerSnakeGame : GameFrame.hostSnakeGame;
-        gameToProcess.addSnake(initializeMsg.getX(), initializeMsg.getY(), initializeMsg.getSpeed(), headColor, bodyColor);
+        gameToProcess.addSnake(initializeMsg.getX(), initializeMsg.getY(), initializeMsg.getSpeed(), initializeMsg.getStartingDirection(), headColor, bodyColor);
     }
 }

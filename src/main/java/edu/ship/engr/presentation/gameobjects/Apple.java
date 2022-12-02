@@ -19,6 +19,7 @@ public class Apple {
 
     /**
      * Create an apple at a random position and sets it to be in play
+     * @param isHost true if the host called this method
      */
     public void spawnApple(boolean isHost) {
         inPlay = true;
@@ -26,8 +27,23 @@ public class Apple {
         xPosition = new Random().nextInt(SnakeGame.SCREEN_WIDTH/ SnakeGame.UNIT_SIZE) * SnakeGame.UNIT_SIZE;
         yPosition = new Random().nextInt(SnakeGame.SCREEN_HEIGHT/ SnakeGame.UNIT_SIZE) * SnakeGame.UNIT_SIZE;
 
-        System.out.println("Sending apple location message");
-        AppleLocation appleLocation = new AppleLocation(isHost, SnakeGame.clock.getUpdatedClock(), xPosition, yPosition);
+        AppleLocation appleLocation = new AppleLocation(isHost, xPosition, yPosition);
+        PlayRunner.messageAccumulator.queueMessage(new Message<>(appleLocation));
+    }
+
+    /**
+     * Spawns an apple at a specific location
+     * @param isHost true if the host called this method
+     * @param xPos the x position to spawn at
+     * @param yPos the y position to spawn at
+     */
+    public void spawnAppleAtLocation(boolean isHost, int xPos, int yPos) {
+        inPlay = true;
+
+        xPosition = xPos;
+        yPosition = yPos;
+
+        AppleLocation appleLocation = new AppleLocation(isHost, xPosition, yPosition);
         PlayRunner.messageAccumulator.queueMessage(new Message<>(appleLocation));
     }
 

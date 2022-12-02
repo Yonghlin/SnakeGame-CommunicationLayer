@@ -33,10 +33,12 @@ public class HostSnakeGame extends SnakeGame {
         Timer timer = new Timer(DELAY, this);
         timer.start();
 
-        snake = new Snake(75, 0, SPEED, new Color(18, 95, 227), new Color(12, 75, 152));
-        InitializeSnake initializeSnake = new InitializeSnake(true, SnakeGame.clock.getUpdatedClock(), 75, 0, SPEED, "18,95,227", "12,75,152");
+        snake = new Snake(75, 275, SPEED, "right", new Color(18, 95, 227), new Color(12, 75, 152));
+
+        InitializeSnake initializeSnake = new InitializeSnake(true, 75, 275, SPEED, "right", "18,95,227", "12,75,152");
         PlayRunner.messageAccumulator.queueMessage(new Message<>(initializeSnake));
-        apple.spawnApple(true);
+
+        apple.spawnAppleAtLocation(true, 275, 275);
     }
 
     /**
@@ -51,7 +53,7 @@ public class HostSnakeGame extends SnakeGame {
                 snake.grow();
                 apple.spawnApple(true);
 
-                Grow growSnake = new Grow(true, SnakeGame.clock.getUpdatedClock());
+                Grow growSnake = new Grow(true);
                 PlayRunner.messageAccumulator.queueMessage(new Message<>(growSnake));
             }
         }

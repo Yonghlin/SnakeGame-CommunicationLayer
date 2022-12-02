@@ -6,28 +6,34 @@ public class AppleLocation {
     private final int x;
     private final int y;
     private boolean host;
-    private int clock;
 
-    public AppleLocation(boolean host, int clock, int x, int y) {
+    /**
+     * Create a new apple location message
+     * @param host host sending message
+     * @param x x position of the apple
+     * @param y y position of the apple
+     */
+    public AppleLocation(boolean host, int x, int y) {
         this.host = host;
         this.x = x;
         this.y = y;
-        this.clock = clock;
     }
 
+    /**
+     * Create a new apple from the hash map
+     * @param p the objects map
+     */
     public AppleLocation(LinkedHashMap<String, Object> p)
     {
         x = (Integer) p.get("x");
         y = (Integer) p.get("y");
         host = (boolean) p.get("host");
-        clock = (Integer) p.get("clock");
     }
 
-    public int getClock() {
-        return clock;
-    }
-
-    public boolean gethost() {
+    /**
+     * @return true if this is the hosts message
+     */
+    public boolean getHost() {
         return host;
     }
 
@@ -49,7 +55,6 @@ public class AppleLocation {
                 "X = " + x +
                 ", Y = " + y +
                 ", host = " + host +
-                ", clock = " + clock +
                 "}";
     }
 }

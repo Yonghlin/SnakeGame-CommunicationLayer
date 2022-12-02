@@ -1,6 +1,5 @@
 package edu.ship.engr.presentation;
 
-import edu.ship.engr.messages.AppleLocation;
 import edu.ship.engr.messages.Direction;
 import edu.ship.engr.messages.Message;
 import edu.ship.engr.messages.PlayerDeath;
@@ -18,17 +17,16 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     public static final int SCREEN_WIDTH = 550;
     public static final int SCREEN_HEIGHT = 550;
     public static final int UNIT_SIZE = 25;
-    private static final Color BACKGROUND_COLOR = new Color(115,162,78);
-    private static final boolean DRAW_GRID = true;
-    private GameFrame window;
     protected final int SPEED = 25;
     protected final int DELAY = 400;
+    private static final Color BACKGROUND_COLOR = new Color(115,162,78);
+    private static final boolean DRAW_GRID = false;
+    private GameFrame window;
     protected Snake snake;
     protected Snake otherSnake;
     protected Apple apple;
     protected boolean isHost;
-    protected int gameTick = 0;
-    public static MessageClock clock;
+    protected int gameClock = 0;
 
     /**
      * Creates a new JPanel to contain the snake game
@@ -38,7 +36,6 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
         this.window = window;
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(BACKGROUND_COLOR);
-        clock = new MessageClock();
         window.addKeyListener(this);
     }
 
@@ -88,17 +85,14 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
      * Ends the game
      */
     public void endGame() {
-        System.out.println("Sending death message");
-        PlayerDeath playerDeath = new PlayerDeath(isHost, clock.getUpdatedClock());
+        PlayerDeath playerDeath = new PlayerDeath(isHost);
         PlayRunner.messageAccumulator.queueMessage(new Message<>(playerDeath));
 
-        System.out.println("You lose!");
         window.setVisible(false);
 
         JFrame parent = new JFrame("Game over!");
         JOptionPane.showMessageDialog(parent, "Snake1's score: " + snake.getBody().size());
         JOptionPane.showMessageDialog(parent, "Snake2's score: " + otherSnake.getBody().size());
-
 
         window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
         System.exit(0);
@@ -110,14 +104,17 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
      */
     private void drawSnake(Graphics g) {
         Graphics2D g2D = (Graphics2D) g;
-        updateSnake(snake, g2D);
-        if (otherSnake != null) { updateSnake(otherSnake, g2D); }
+        if (snake.getCanUpdate()) {
+            updateSnake(snake, g2D);
+        }
+        if (otherSnake != null && snake.getCanUpdate()) { updateSnake(otherSnake, g2D); }
         checkCollision();
     }
 
     /**
-     * Update the snakes position and draw the snakes body based on that
-     * @param g2D graphics 2D
+     * Updates the snakes position and draw the snakes body based on that
+     * @param snake the snake to update
+     * @param g2D the graphics 2d
      */
     private void updateSnake(Snake snake, Graphics2D g2D) {
         snake.move();
@@ -171,19 +168,21 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     }
 
     /**
-     *
+     * Changes the other snakes direction and syncs its position
+     * @param otherGamesTick
+     * @param newDirection
      */
     public void adjustOtherSnake(int otherGamesTick, String newDirection) {
         setOtherSnakeDirection(newDirection);
 
-        int ticksPositionsOffBy = gameTick - otherGamesTick;
+        int ticksPositionsOffBy = gameClock - otherGamesTick;
         if (ticksPositionsOffBy > 0) {
             otherSnake.rollback(ticksPositionsOffBy);
         }
     }
 
     /**
-     *
+     * Adds one length to the nonlocal snake
      */
     public void growOtherSnake() {
         otherSnake.grow();
@@ -191,22 +190,14 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
 
     /**
      * Adds another snake to an existing board
-     * @param startingXPos
-     * @param startingYPos
-     * @param speed
-     * @param headColor
-     * @param bodyColor
+     * @param startingXPos the snakes starting X position
+     * @param startingYPos the snakes starting Y position
+     * @param speed the starting speed
+     * @param headColor color of the snakes head
+     * @param bodyColor color of the snakes body
      */
-    public void addSnake(int startingXPos, int startingYPos, int speed, Color headColor, Color bodyColor) {
-        otherSnake = new Snake(startingXPos, startingYPos, speed, headColor, bodyColor);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getGameTick() {
-        return gameTick;
+    public void addSnake(int startingXPos, int startingYPos, int speed, String startingDirection, Color headColor, Color bodyColor) {
+        otherSnake = new Snake(startingXPos, startingYPos, speed, startingDirection, headColor, bodyColor);
     }
 
     /**
@@ -241,7 +232,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
             drawGrid(g);
         }
 
-        if (gameTick >= 3) {
+        if (gameClock >= 3) {
             drawSnake(g);
             drawApple(g);
         }
@@ -270,18 +261,12 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
         }
 
         if (direction != null) {
-            Direction directionMsg = new Direction(isHost, clock.getUpdatedClock(), direction, snake.getDirection(), gameTick);
+            Direction directionMsg = new Direction(isHost, direction, gameClock);
             PlayRunner.messageAccumulator.queueMessage(new Message<>(directionMsg));
 
             snake.setDirection(direction);
         }
     }
-
-    @Override
-    public void keyTyped(KeyEvent e) { }
-
-    @Override
-    public void keyReleased(KeyEvent e) { }
 
     /**
      * Redraws the screen after an action
@@ -289,7 +274,13 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        gameTick++;
+        gameClock++;
         repaint();
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) { }
+
+    @Override
+    public void keyReleased(KeyEvent e) { }
 }

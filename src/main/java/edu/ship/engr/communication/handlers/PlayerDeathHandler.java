@@ -2,8 +2,6 @@ package edu.ship.engr.communication.handlers;
 
 import edu.ship.engr.messages.Message;
 import edu.ship.engr.messages.PlayerDeath;
-import edu.ship.engr.messages.ReplyObject;
-import edu.ship.engr.peertopeer.PlayRunner;
 import edu.ship.engr.presentation.GameFrame;
 import edu.ship.engr.presentation.SnakeGame;
 

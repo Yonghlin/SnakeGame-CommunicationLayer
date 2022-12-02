@@ -33,9 +33,9 @@ public class PeerSnakeGame extends SnakeGame {
         Timer timer = new Timer(DELAY, this);
         timer.start();
 
-        snake = new Snake(75, 25, SPEED, new Color(145, 67, 67), new Color(150, 17, 23));
+        snake = new Snake(475, 275, SPEED, "left", new Color(145, 67, 67), new Color(150, 17, 23));
 
-        InitializeSnake initializeSnake = new InitializeSnake(false, SnakeGame.clock.getUpdatedClock(),75, 25, SPEED, "145,67,67", "150,17,23");
+        InitializeSnake initializeSnake = new InitializeSnake(false, 475, 275, SPEED, "left", "145,67,67", "150,17,23");
         PlayRunner.messageAccumulator.queueMessage(new Message<>(initializeSnake));
     }
 
@@ -51,7 +51,7 @@ public class PeerSnakeGame extends SnakeGame {
                 snake.grow();
                 apple.spawnApple(false);
 
-                Grow growSnake = new Grow(false, SnakeGame.clock.getUpdatedClock());
+                Grow growSnake = new Grow(false);
                 PlayRunner.messageAccumulator.queueMessage(new Message<>(growSnake));
             }
         }
