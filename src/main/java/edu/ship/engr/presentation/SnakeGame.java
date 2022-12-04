@@ -28,6 +28,8 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     protected boolean isHost;
     protected int gameClock = 0;
 
+    public boolean GameOver = false;
+
     /**
      * Creates a new JPanel to contain the snake game
      * @param window the JFrame window
@@ -88,6 +90,8 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
 
         window.setVisible(false);
 
+        GameOver = true;
+
         JFrame parent = new JFrame("Game over!");
         JOptionPane.showMessageDialog(parent, "Snake1's score: " + snake.getBody().size());
         JOptionPane.showMessageDialog(parent, "Snake2's score: " + otherSnake.getBody().size());
@@ -95,6 +99,8 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
         window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
         System.exit(0);
     }
+
+    public boolean getGameOver() { return GameOver; }
 
     /**
      * Draws the snake in the window
