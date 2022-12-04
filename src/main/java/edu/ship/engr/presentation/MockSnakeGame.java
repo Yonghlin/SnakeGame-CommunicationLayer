@@ -25,8 +25,8 @@ public class MockSnakeGame extends SnakeGame {
 
     @Override
     public void startGame() {
-        snake = new Snake(475, 275, SPEED, "right", new Color(18, 95, 227), new Color(12, 75, 152));
-        otherSnake = new Snake(475, 275, SPEED, "right", new Color(145, 67, 67), new Color(150, 17, 23));
+        snake = new Snake(400, 275, SPEED, "right", new Color(18, 95, 227), new Color(12, 75, 152));
+        otherSnake = new Snake(475, 275, SPEED, "left", new Color(145, 67, 67), new Color(150, 17, 23));
     }
 
     @Override

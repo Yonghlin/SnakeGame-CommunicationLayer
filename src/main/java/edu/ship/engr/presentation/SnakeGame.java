@@ -178,6 +178,20 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     }
 
     /**
+     * @return this windows snake
+     */
+    public Snake getSnake() {
+        return snake;
+    }
+
+    /**
+     * @return the other snake
+     */
+    public Snake getOtherSnake() {
+        return otherSnake;
+    }
+
+    /**
      * Changes the other snakes direction and syncs its position
      * @param otherGamesClock the time the other game was on when the message was sent
      * @param newDirection the direction to change the snake to
