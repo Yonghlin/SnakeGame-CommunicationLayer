@@ -27,8 +27,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     protected Apple apple;
     protected boolean isHost;
     protected int gameClock = 0;
-
-    public boolean GameOver = false;
+    protected boolean GameOver = false;
 
     /**
      * Creates a new JPanel to contain the snake game
