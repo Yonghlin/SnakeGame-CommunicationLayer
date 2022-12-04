@@ -1,1 +1,2 @@
-FReceived first message FirstMessage{magicNumber=55, magicNumber2=77}
+-AppleLocation{X = 100, Y = 50, host = true}
+.AppleLocation{X = 150, Y = 70, host = false}

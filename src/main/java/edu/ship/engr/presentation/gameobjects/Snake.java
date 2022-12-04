@@ -51,10 +51,18 @@ public class Snake {
         Rectangle newHead = new Rectangle(oldHead.getXPosition(), oldHead.getYPosition());
 
         switch (direction) {
-            case "right" -> newHead.setXPosition(speed);
-            case "left" -> newHead.setXPosition(-speed);
-            case "up" -> newHead.setYPosition(-speed);
-            case "down" -> newHead.setYPosition(speed);
+            case "right":
+                newHead.setXPosition(speed);
+                break;
+            case "left":
+                newHead.setXPosition(-speed);
+                break;
+            case "up":
+                newHead.setYPosition(-speed);
+                break;
+            case "down":
+                newHead.setYPosition(speed);
+                break;
         }
         newBody.add(newHead);
 
@@ -101,10 +109,18 @@ public class Snake {
         int lastPartYPos = lastBodyPart.getYPosition();
 
         switch (direction) {
-            case "right" -> addPartToBody(lastPartXPos - SnakeGame.UNIT_SIZE, lastPartYPos);
-            case "left" -> addPartToBody(lastPartXPos + SnakeGame.UNIT_SIZE, lastPartYPos);
-            case "up" -> addPartToBody(lastPartXPos, lastPartYPos + SnakeGame.UNIT_SIZE);
-            case "down" -> addPartToBody(lastPartXPos, lastPartYPos - SnakeGame.UNIT_SIZE);
+            case "right":
+                addPartToBody(lastPartXPos - SnakeGame.UNIT_SIZE, lastPartYPos);
+                break;
+            case "left":
+                addPartToBody(lastPartXPos + SnakeGame.UNIT_SIZE, lastPartYPos);
+                break;
+            case "up":
+                addPartToBody(lastPartXPos, lastPartYPos + SnakeGame.UNIT_SIZE);
+                break;
+            case "down":
+                addPartToBody(lastPartXPos, lastPartYPos - SnakeGame.UNIT_SIZE);
+                break;
         }
     }
 

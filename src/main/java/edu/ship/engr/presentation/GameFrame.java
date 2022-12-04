@@ -28,4 +28,9 @@ public class GameFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.pack();
     }
+
+    public GameFrame() {
+        hostSnakeGame = new MockSnakeGame(this);
+        peerSnakeGame = new MockSnakeGame(this);
+    }
 }

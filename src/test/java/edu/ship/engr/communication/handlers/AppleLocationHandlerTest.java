@@ -4,9 +4,10 @@ import edu.ship.engr.communication.TestUtilities;
 import edu.ship.engr.messages.AppleLocation;
 import edu.ship.engr.messages.Message;
 import edu.ship.engr.presentation.GameFrame;
+import edu.ship.engr.presentation.SnakeGame;
+import edu.ship.engr.presentation.gameobjects.Apple;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,28 +15,38 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AppleLocationHandlerTest {
     @Test
     public void testAppleLocation() throws IOException {
-        new GameFrame(true);
-        new GameFrame(false);
+        new GameFrame();
+        SnakeGame hostGame = GameFrame.hostSnakeGame;
+        SnakeGame peerGame = GameFrame.peerSnakeGame;
+        Apple hostApple = hostGame.getApple();
+        Apple peerApple = peerGame.getApple();
 
-        GameFrame.hostSnakeGame.setApple(100, 50);
-        GameFrame.hostSnakeGame.addSnake(475, 275, 25, "left", new Color(145, 67, 67), new Color(150, 17, 23));
+        // Send to peer
+        assertEquals(0, peerApple.getXPosition());
+        assertEquals(0, peerApple.getYPosition());
 
-        AppleLocation appleLocation = new AppleLocation(true, 100, 50);
-        Message<AppleLocation> msgToSend = new Message<>(appleLocation);
-        Message<?> msgAfterSending = TestUtilities.convertToUnpackedJSon(msgToSend);
+        AppleLocation appleLocationToPeer = new AppleLocation(true, 100, 50);
+        Message<AppleLocation> msgToSendToPeer = new Message<>(appleLocationToPeer);
+        Message<?> msgAfterSendingToPeer = TestUtilities.convertToUnpackedJSon(msgToSendToPeer);
 
-        AppleLocationHandler handler = new AppleLocationHandler();
-        handler.processMessage(msgAfterSending);
+        AppleLocationHandler peerHandler = new AppleLocationHandler();
+        peerHandler.processMessage(msgAfterSendingToPeer);
 
-        int[] hostAppleLocation = GameFrame.hostSnakeGame.getAppleLocation();
-        int[] peerAppleLocation = GameFrame.peerSnakeGame.getAppleLocation();
+        assertEquals(100, peerApple.getXPosition());
+        assertEquals(50, peerApple.getYPosition());
 
-        assertEquals(hostAppleLocation[0], peerAppleLocation[0]);
-        assertEquals(hostAppleLocation[1], peerAppleLocation[1]);
+        // Send to host
+        assertEquals(0, hostApple.getXPosition());
+        assertEquals(0, hostApple.getYPosition());
 
-        // The test works but because we are running the actual game, we have to close it
-        // As such, the below two statements don't exactly work
-        GameFrame.peerSnakeGame.mockEndGame();
-        GameFrame.hostSnakeGame.mockEndGame();
+        AppleLocation appleLocationToHost = new AppleLocation(false, 150, 70);
+        Message<AppleLocation> msgToSendToHost = new Message<>(appleLocationToHost);
+        Message<?> msgAfterSendingToHost = TestUtilities.convertToUnpackedJSon(msgToSendToHost);
+
+        AppleLocationHandler hostHandler = new AppleLocationHandler();
+        hostHandler.processMessage(msgAfterSendingToHost);
+
+        assertEquals(150, hostApple.getXPosition());
+        assertEquals(70, hostApple.getYPosition());
     }
 }

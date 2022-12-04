@@ -21,7 +21,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     protected final int DELAY = 400;
     private static final Color BACKGROUND_COLOR = new Color(115,162,78);
     private static final boolean DRAW_GRID = false;
-    private final GameFrame window;
+    protected final GameFrame window;
     protected Snake snake;
     protected Snake otherSnake;
     protected Apple apple;
@@ -155,6 +155,13 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
         apple.setXPosition(xPosition);
         apple.setYPosition(yPosition);
         apple.setInPlay(true);
+    }
+
+    /**
+     * @return this games apple object
+     */
+    public Apple getApple() {
+        return apple;
     }
 
     /**

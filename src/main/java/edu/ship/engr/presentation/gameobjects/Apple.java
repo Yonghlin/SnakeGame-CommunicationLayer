@@ -15,7 +15,10 @@ public class Apple {
     /**
      * Creates a new apple object
      */
-    public Apple() {}
+    public Apple() {
+        this.xPosition = 0;
+        this.yPosition = 0;
+    }
 
     /**
      * Create an apple at a random position and sets it to be in play
