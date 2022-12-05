@@ -52,10 +52,10 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
 
         // Check borders
         if (currentXPosition < 0 || currentYPosition < 0) {
-            endGame();
+            endGame(true);
         }
         if (currentXPosition > SCREEN_WIDTH || currentYPosition > SCREEN_HEIGHT) {
-            endGame();
+            endGame(true);
         }
 
         // Check self intersect
@@ -63,7 +63,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
             Rectangle currentBodyPart = snakeBody.get(i);
 
             if (snakeHead.intersects(currentBodyPart)) {
-                endGame();
+                endGame(true);
             }
         }
 
@@ -72,7 +72,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
             ArrayList<Rectangle> otherSnakeBody = otherSnake.getBody();
             for (Rectangle currentBodyPart : otherSnakeBody) {
                 if (snakeHead.intersects(currentBodyPart)) {
-                    endGame();
+                    endGame(true);
                 }
             }
         }
@@ -83,21 +83,63 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     /**
      * Ends the game
      */
-    public void endGame() {
-        PlayerDeath playerDeath = new PlayerDeath(isHost);
-        PlayRunner.messageAccumulator.queueMessage(new Message<>(playerDeath));
+    public void endGame(boolean shouldSendMsg) {
+        if (shouldSendMsg) {
+            PlayerDeath playerDeath = new PlayerDeath(isHost);
+            PlayRunner.messageAccumulator.queueMessage(new Message<>(playerDeath));
+        }
 
         window.setVisible(false);
+        String winnerMsg = getWhoWonMessage();
+        String snake1, snake2;
 
-        GameOver = true;
+        if (isHost) {
+            snake1 = "YOUR";
+            snake2 = "Peer";
+        } else {
+            snake1 = "YOUR";
+            snake2 = "Host";
+        }
 
-        JFrame parent = new JFrame("Game over!");
-        JOptionPane.showMessageDialog(parent, "Snake1's score: " + snake.getBody().size());
-        JOptionPane.showMessageDialog(parent, "Snake2's score: " + otherSnake.getBody().size());
+        JFrame parent = new JFrame();
+        JOptionPane.showMessageDialog(parent,
+                "GAME OVER!\n" +
+                        winnerMsg + "\n" +
+                        "--------------------------\n" +
+                        snake1 +" score: " + snake.getBody().size() + "\n" +
+                        snake2 +"'s score: " + otherSnake.getBody().size() + "\n");
 
         window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
         System.exit(0);
     }
+
+    /**
+     * @return the correct winning message depending on the results of the game
+     */
+    private String getWhoWonMessage() {
+        String winnerMsg;
+
+        if (snake.getBody().size() == otherSnake.getBody().size()) {
+            winnerMsg = "Its a tie!";
+        } else {
+            if (isHost) {
+                if (snake.getBody().size() > otherSnake.getBody().size()) {
+                    winnerMsg = "You win!";
+                } else {
+                    winnerMsg = "Peer snake wins!";
+                }
+            } else {
+                if (snake.getBody().size() > otherSnake.getBody().size()) {
+                    winnerMsg = "You win!";
+                } else {
+                    winnerMsg = "Host snake wins!";
+                }
+            }
+        }
+
+        return winnerMsg;
+    }
+
 
     public boolean getGameOver() { return GameOver; }
 
@@ -208,8 +250,10 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
         setOtherSnakeDirection(newDirection);
 
         int ticksPositionsOffBy = gameClock - otherGamesClock;
-        if (ticksPositionsOffBy > 0) {
+        if (ticksPositionsOffBy > 0 && ticksPositionsOffBy <= Snake.MAX_ROLLBACK) {
             otherSnake.rollback(ticksPositionsOffBy);
+        } else if (ticksPositionsOffBy > Snake.MAX_ROLLBACK) {
+            endGame(true);
         }
     }
 

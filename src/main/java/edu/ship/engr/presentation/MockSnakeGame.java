@@ -42,7 +42,7 @@ public class MockSnakeGame extends SnakeGame {
     }
 
     @Override
-    public void endGame() {
+    public void endGame(boolean shouldSendMsg) {
         GameOver = true;
     }
 }

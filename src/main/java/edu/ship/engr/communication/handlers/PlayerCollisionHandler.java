@@ -16,6 +16,6 @@ public class PlayerCollisionHandler implements Handler {
         System.out.println(collide);
 
         SnakeGame gameToProcess = collide.getHost() ? GameFrame.peerSnakeGame : GameFrame.hostSnakeGame;
-        gameToProcess.endGame();
+        gameToProcess.endGame(false);
     }
 }

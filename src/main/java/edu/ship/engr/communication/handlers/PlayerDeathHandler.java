@@ -14,6 +14,6 @@ public class PlayerDeathHandler implements Handler {
         System.out.println(msg);
 
         SnakeGame gameToProcess = msg.getHost() ? GameFrame.peerSnakeGame : GameFrame.hostSnakeGame;
-        gameToProcess.endGame();
+        gameToProcess.endGame(false);
     }
 }

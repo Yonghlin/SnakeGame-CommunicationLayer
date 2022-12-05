@@ -1,2 +1,3 @@
-…InitializeSnake{host = false, X = 75, Y = 275, speed = 25, startingDirection = right, headColor = 18,95,227, bodyColor = 12,75,152}
-ƒInitializeSnake{host = true, X = 75, Y = 275, speed = 25, startingDirection = down, headColor = 18,95,227, bodyColor = 12,75,152}
+@Direction{host = true, direction = left, currentGamesTick = 1}
+ADirection{host = true, direction = right, currentGamesTick = 3}
+ADirection{host = true, direction = right, currentGamesTick = 4}
