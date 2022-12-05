@@ -30,7 +30,7 @@ public class GameFrame extends JFrame {
     }
 
     public GameFrame() {
-        hostSnakeGame = new MockSnakeGame(this);
-        peerSnakeGame = new MockSnakeGame(this);
+        hostSnakeGame = new MockSnakeGame(this, true);
+        peerSnakeGame = new MockSnakeGame(this, false);
     }
 }

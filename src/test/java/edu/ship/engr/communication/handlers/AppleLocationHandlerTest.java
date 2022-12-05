@@ -13,6 +13,11 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AppleLocationHandlerTest {
+    /**
+     * Checks the apple location on peer and host when
+     * peer sends to host and host sends to peer
+     * @throws IOException
+     */
     @Test
     public void testAppleLocation() throws IOException {
         new GameFrame();

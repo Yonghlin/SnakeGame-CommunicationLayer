@@ -33,7 +33,6 @@ public class Snake {
         Rectangle bodySegment = new Rectangle(head.getXPosition() - SnakeGame.UNIT_SIZE, head.getYPosition());
         body.add(bodySegment);
 
-        this.previousBodyPositions.add(body);
         this.direction = startingDirection;
         this.speed = speed;
         this.headColor = headColor;
@@ -89,11 +88,11 @@ public class Snake {
     public void rollback(int rollback) {
         canUpdate = false;
 
-        int rollbackPositionIndex = (rollback > previousBodyPositions.size()) ? previousBodyPositions.size() - 1 : MAX_ROLLBACK - rollback;
+        int rollbackPositionIndex = (rollback == 1) ? (previousBodyPositions.size() - 1) : (previousBodyPositions.size() - 1) - rollback;  //(rollback > previousBodyPositions.size()) ? previousBodyPositions.size() - 1 : MAX_ROLLBACK - rollback;
         body = previousBodyPositions.get(rollbackPositionIndex);
         move();
 
-        for (int i = rollbackPositionIndex; i < MAX_ROLLBACK; i++) {
+        for (int i = rollbackPositionIndex; i < previousBodyPositions.size(); i++) {
             previousBodyPositions.remove(i);
         }
 
@@ -169,6 +168,13 @@ public class Snake {
      */
     public String getDirection() {
         return direction;
+    }
+
+    /**
+     * @return the previous positions the snake has been in
+     */
+    public ArrayList<ArrayList<Rectangle>> getPreviousBodyPositions() {
+        return previousBodyPositions;
     }
 
     /**

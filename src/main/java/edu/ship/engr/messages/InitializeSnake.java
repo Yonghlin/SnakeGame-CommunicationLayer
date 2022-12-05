@@ -11,6 +11,16 @@ public class InitializeSnake {
     private String startingDirection;
     private boolean host;
 
+    /**
+     * Create a snake location for Peer or Host
+     * @param host
+     * @param x
+     * @param y
+     * @param speed
+     * @param startingDirection
+     * @param headColor
+     * @param bodyColor
+     */
     public InitializeSnake(boolean host, int x, int y, int speed, String startingDirection, String headColor, String bodyColor) {
         this.host = host;
         this.x = x;
@@ -21,6 +31,10 @@ public class InitializeSnake {
         this.bodyColor = bodyColor;
     }
 
+    /**
+     * Create snake from the hash map
+     * @param p
+     */
     public InitializeSnake(LinkedHashMap<String, Object> p) {
         host = (boolean) p.get("host");
         x = (Integer) p.get("x");

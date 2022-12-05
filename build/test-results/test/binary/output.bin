@@ -1,1 +1,2 @@
-Player collision detected!
+…InitializeSnake{host = false, X = 75, Y = 275, speed = 25, startingDirection = right, headColor = 18,95,227, bodyColor = 12,75,152}
+ƒInitializeSnake{host = true, X = 75, Y = 275, speed = 25, startingDirection = down, headColor = 18,95,227, bodyColor = 12,75,152}
