@@ -18,7 +18,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     public static final int SCREEN_HEIGHT = 550;
     public static final int UNIT_SIZE = 25;
     protected final int SPEED = 25;
-    protected final int DELAY = 600;
+    protected final int DELAY = 225;
     private static final Color BACKGROUND_COLOR = new Color(115,162,78);
     private static final boolean DRAW_GRID = false;
     protected final GameFrame window;

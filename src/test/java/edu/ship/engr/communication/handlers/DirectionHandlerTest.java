@@ -92,6 +92,7 @@ public class DirectionHandlerTest {
 
     /**
      * Checks a snakes current position against a given x and y for both the host and peer windows
+     *
      * @param snake the snake being controlled
      * @param otherSnake the snake being controlled on the opposite client
      * @param testingXPosition x position to test

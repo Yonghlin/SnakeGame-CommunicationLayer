@@ -33,9 +33,9 @@ public class HostSnakeGame extends SnakeGame {
         Timer timer = new Timer(DELAY, this);
         timer.start();
 
-        snake = new Snake(75, 275, SPEED, "right", new Color(18, 95, 227), new Color(12, 75, 152));
+        snake = new Snake(50, 275, SPEED, "right", new Color(18, 95, 227), new Color(12, 75, 152));
 
-        InitializeSnake initializeSnake = new InitializeSnake(true, 75, 275, SPEED, "right", "18,95,227", "12,75,152");
+        InitializeSnake initializeSnake = new InitializeSnake(true, 50, 275, SPEED, "right", "18,95,227", "12,75,152");
         PlayRunner.messageAccumulator.queueMessage(new Message<>(initializeSnake));
 
         apple.spawnAppleAtLocation(true, 275, 275);

@@ -6,7 +6,7 @@ public class Grow {
     private boolean host;
 
     /**
-     * Create a grow message
+     * Create a growth message
      * @param host
      */
     public Grow(boolean host) {
