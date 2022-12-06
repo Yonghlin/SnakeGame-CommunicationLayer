@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.awt.Color;
 
 public class Snake {
-    public static final int MAX_ROLLBACK = 5;
+    public static final int MAX_ROLLBACK = 10;
     private ArrayList<Rectangle> body = new ArrayList<>();
     private final ArrayList<ArrayList<Rectangle>> previousBodyPositions = new ArrayList<>();
     private String direction;
@@ -86,7 +86,7 @@ public class Snake {
      * @param rollback how many positions to revert the snake by
      */
     public void rollback(int rollback) {
-        canUpdate = false;
+        //canUpdate = false;
         int rollbackPositionIndex = (rollback == 1) ? (previousBodyPositions.size() - 1) : (previousBodyPositions.size() - rollback);
         body = previousBodyPositions.get(rollbackPositionIndex);
         move();
@@ -94,7 +94,7 @@ public class Snake {
         for (int i = rollbackPositionIndex; i < previousBodyPositions.size(); i++) {
             previousBodyPositions.remove(i);
         }
-        canUpdate = true;
+        //canUpdate = true;
     }
 
     /**

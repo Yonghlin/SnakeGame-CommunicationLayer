@@ -18,9 +18,9 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
     public static final int SCREEN_HEIGHT = 550;
     public static final int UNIT_SIZE = 25;
     protected final int SPEED = 25;
-    protected final int DELAY = 225;
+    protected final int DELAY = 500;
     private static final Color BACKGROUND_COLOR = new Color(115,162,78);
-    private static final boolean DRAW_GRID = false;
+    private static final boolean DRAW_GRID = true;
     protected final GameFrame window;
     protected Snake snake;
     protected Snake otherSnake;
@@ -308,7 +308,7 @@ public abstract class SnakeGame extends JPanel implements SnakeGameInterface, Ke
             drawGrid(g);
         }
 
-        if (gameClock >= 3) {
+        if (gameClock >= 10) {
             drawSnake(g);
             drawApple(g);
         }

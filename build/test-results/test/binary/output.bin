@@ -1,3 +1,1 @@
-@Direction{host = true, direction = left, currentGamesTick = 1}
-ADirection{host = true, direction = right, currentGamesTick = 3}
-ADirection{host = true, direction = right, currentGamesTick = 4}
+Grow{host = true}
